@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import {Routes, Route} from 'react-router-dom';
+import {ThemeProvider} from 'styled-components';
+// import {HelmetProvider, Helmet} from 'react-helmet-async';
+import {GlobalStyles, lightTheme} from './styles';
+
+// Pages
+import MainPage from './pages/MainPage';
+import MarketPage from './pages/MarketPage';
+import MyPage from './pages/MyPage';
+import WritePage from './pages/WritePage';
+import DetailPage from './pages/DetailPage';
+import JoinPage from './pages/JoinPage';
+import NotFound from './pages/NotFound';
+
+// Components
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={lightTheme}>
+      <GlobalStyles />
+      <Header />
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/marketpage" element={<MarketPage />} />
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/writepage" element={<WritePage />} />
+        <Route path="/detailpage" element={<DetailPage />} />
+        <Route path="/joinpage" element={<JoinPage />} />
+      </Routes>
+      <Footer />
+    </ThemeProvider>
   );
 }
 
