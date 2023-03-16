@@ -17,7 +17,7 @@ class User extends Sequelize.Model {
           allowNull: false,
         },
         address: {
-          type: Sequelize.STRING(20),
+          type: Sequelize.STRING(100),
           allowNull: false,
         },
         token_amount: {
