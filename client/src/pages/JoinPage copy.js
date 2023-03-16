@@ -134,24 +134,21 @@ function JoinPage() {
           <Input
             type="text"
             name="username"
-            placeholder="닉네임을 입력하세요."
+            placeholder="영문자 숫자를 섞어서 5자 이상이어야 합니다. "
             value={formData.username}
             onChange={handleInputChange}
-            onKeyUp={handleUsernameChange}
             width="600px"
             required
           />
-          {usernameError && <ErrorMessage>{usernameError}</ErrorMessage>}
         </InputContainer>
         <InputContainer>
           <InputLabel>비밀번호</InputLabel>
           <Input
             type="password"
             name="password"
-            placeholder="비밀번호를 입력하세요."
+            placeholder="비밀번호를 입력하세요. 영문자,숫자, 특수문자를 섞어서 8자 이상이어야 합니다."
             value={formData.password}
             onChange={handleInputChange}
-            onKeyUp={handlePasswordChange}
             width="600px"
             required
           />
@@ -168,9 +165,9 @@ function JoinPage() {
             width="600px"
             required
           />
-          {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
         </InputContainer>
-        <SubmitButton type="submit" disabled={passwordError || usernameError}>
+        {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
+        <SubmitButton type="submit" disabled={passwordError}>
           Sign Up
         </SubmitButton>
       </FormContainer>
