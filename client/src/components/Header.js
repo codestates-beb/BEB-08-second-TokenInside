@@ -78,6 +78,7 @@ const SearchBar = styled.input`
 `;
 
 const WalletBtn = styled.div`
+  margin-right: 10px;
   background-color: #87ceeb;
   font-weight: 600;
   font-size: 15px;
@@ -127,6 +128,9 @@ function Header() {
 
         <Column>
           <WalletBtn onClick={() => {}}>Login</WalletBtn>
+          <WalletBtn onClick={() => {}}>
+            <Link to="/joinpage">회원가입</Link>
+          </WalletBtn>
         </Column>
       </Wrapper>
     </Head>
