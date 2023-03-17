@@ -126,51 +126,56 @@ function JoinPage() {
       });
   };
 
+  const handleConfirmPasswordChange = event => {
+    const confirmPassword = event.target.value;
+    //const password = formData.password;
+    const password = event.target.form.password.value;
+    console.log('password', password);
+    console.log('confirmPassword', confirmPassword);
+    if (password !== confirmPassword) {
+      setPasswordError('Passwords do not match');
+      console.log('if');
+    } else {
+      setPasswordError('');
+      console.log('else');
+    }
+  };
+
   return (
     <FormWrapper>
       <FormContainer onSubmit={handleSubmit}>
         <InputContainer>
-          <InputLabel>닉네임</InputLabel>
+          <InputLabel>이름</InputLabel>
           <Input
             type="text"
             name="username"
-            placeholder="닉네임을 입력하세요."
             value={formData.username}
             onChange={handleInputChange}
-            onKeyUp={handleUsernameChange}
-            width="600px"
             required
           />
-          {usernameError && <ErrorMessage>{usernameError}</ErrorMessage>}
         </InputContainer>
         <InputContainer>
           <InputLabel>비밀번호</InputLabel>
           <Input
             type="password"
             name="password"
-            placeholder="비밀번호를 입력하세요."
             value={formData.password}
             onChange={handleInputChange}
-            onKeyUp={handlePasswordChange}
-            width="600px"
             required
           />
         </InputContainer>
-        <InputContainer>
-          <InputLabel>비밀번호 확인</InputLabel>
-          <Input
-            type="password"
-            name="confirmPassword"
-            placeholder="비밀번호를 똑같이 입력하세요."
-            value={formData.confirmPassword}
-            onChange={handleInputChange}
-            onKeyUp={handleConfirmPasswordChange} // 비밀번호 입력 후 일치 여부 확인
-            width="600px"
-            required
-          />
-          {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
-        </InputContainer>
-        <SubmitButton type="submit" disabled={passwordError || usernameError}>
+        <InputLabel>비밀번호 확인</InputLabel>
+        <Input
+          type="password"
+          name="confirmPassword"
+          placeholder="비밀번호를 똑같이 입력하세요."
+          value={formData.confirmPassword}
+          onChange={handleInputChange}
+          onKeyUp={handleConfirmPasswordChange} // 비밀번호 입력 후 일치 여부 확인
+          required
+        />
+        {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
+        <SubmitButton type="submit" disabled={passwordError}>
           Sign Up
         </SubmitButton>
       </FormContainer>

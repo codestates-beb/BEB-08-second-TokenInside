@@ -27,10 +27,12 @@ export const LoadingContainer = styled(Col)`
 export const lightTheme = {
   accent: '#0095f6',
   borderColor: 'rgb(219, 219, 219)',
-  bgColor: '#FAFAFA',
-  fontColor: 'rgb(38, 38, 38)',
+
   colors: {
-    primary: '#87ceeb',
+    primary: '#87ceeb', // sky blue
+    primary2: '#6CA0DC', // little boy blue
+    fontColor: 'rgb(38, 38, 38)', // 애매한 흰색
+    bgColor: '#FAFAFA',
   },
 };
 export const darkTheme = {
@@ -111,10 +113,10 @@ input {
 
 .header {
     
-    background-color: ${props => props.theme.bgColor};
+    background-color: ${props => props.theme.colors.bgColor};
     font-size: 14px;
     font-family:'Open Sans', sans-serif;
-    color: ${props => props.theme.fontColor};
+    color: ${props => props.theme.colors.fontColor};
 
 
     
