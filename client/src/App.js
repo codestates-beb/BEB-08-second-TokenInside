@@ -11,6 +11,7 @@ import WritePage from './pages/WritePage';
 import DetailPage from './pages/DetailPage';
 import JoinPage from './pages/JoinPage';
 import NotFound from './pages/NotFound';
+import LoginPage from './pages/LoginPage';
 
 // Components
 import Header from './components/Header';
@@ -28,6 +29,7 @@ function App() {
         <Route path="/write" element={<WritePage />} />
         <Route path="/detail" element={<DetailPage />} />
         <Route path="/join" element={<JoinPage />} />
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
       <Footer />
     </ThemeProvider>

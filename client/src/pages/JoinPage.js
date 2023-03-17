@@ -2,11 +2,6 @@ import styled from 'styled-components';
 import React, {useState} from 'react';
 import axios from 'axios';
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 const FormWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -32,14 +27,6 @@ const InputLabel = styled.label`
   font-weight: bold;
   margin-bottom: 0.5rem;
 `;
-
-// const Input = styled.input`
-//   padding: 0.5rem;
-//   font-size: 1rem;
-//   border: 1px solid gray;
-//   border-radius: 5px;
-//   width: 100%;
-// `;
 
 const Input = styled.input`
   padding: 0.5rem;
@@ -126,36 +113,22 @@ function JoinPage() {
       });
   };
 
-  const handleConfirmPasswordChange = event => {
-    const confirmPassword = event.target.value;
-    //const password = formData.password;
-    const password = event.target.form.password.value;
-    console.log('password', password);
-    console.log('confirmPassword', confirmPassword);
-    if (password !== confirmPassword) {
-      setPasswordError('Passwords do not match');
-      console.log('if');
-    } else {
-      setPasswordError('');
-      console.log('else');
-    }
-  };
-
   return (
     <FormWrapper>
       <FormContainer onSubmit={handleSubmit}>
         <InputContainer>
-          <InputLabel>이름</InputLabel>
+          <InputLabel>ID</InputLabel>
           <Input
             type="text"
             name="username"
+            placeholder="아이디을 입력하세요."
             value={formData.username}
             onChange={handleInputChange}
             required
           />
         </InputContainer>
         <InputContainer>
-          <InputLabel>비밀번호</InputLabel>
+          <InputLabel>Password</InputLabel>
           <Input
             type="password"
             name="password"
@@ -164,18 +137,21 @@ function JoinPage() {
             required
           />
         </InputContainer>
-        <InputLabel>비밀번호 확인</InputLabel>
-        <Input
-          type="password"
-          name="confirmPassword"
-          placeholder="비밀번호를 똑같이 입력하세요."
-          value={formData.confirmPassword}
-          onChange={handleInputChange}
-          onKeyUp={handleConfirmPasswordChange} // 비밀번호 입력 후 일치 여부 확인
-          required
-        />
-        {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
-        <SubmitButton type="submit" disabled={passwordError}>
+        <InputContainer>
+          <InputLabel>Confirm Password</InputLabel>
+          <Input
+            type="password"
+            name="confirmPassword"
+            placeholder="비밀번호를 똑같이 입력하세요."
+            value={formData.confirmPassword}
+            onChange={handleInputChange}
+            onKeyUp={handleConfirmPasswordChange} // 비밀번호 입력 후 일치 여부 확인
+            width="600px"
+            required
+          />
+          {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
+        </InputContainer>
+        <SubmitButton type="submit" disabled={passwordError || usernameError}>
           Sign Up
         </SubmitButton>
       </FormContainer>
