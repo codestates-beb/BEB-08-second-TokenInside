@@ -1,13 +1,11 @@
 import styled from 'styled-components';
-import React, { useState } from "react";
-import axios from "axios";
-
+import React, {useState} from 'react';
+import axios from 'axios';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
 
 const FormWrapper = styled.div`
   display: flex;
@@ -56,80 +54,75 @@ const SubmitButton = styled.button`
   cursor: pointer;
 `;
 
-
 function JoinPage() {
-
-
   const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
   });
 
-  const [passwordError, setPasswordError] = useState("");
+  const [passwordError, setPasswordError] = useState('');
 
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevFormData) => ({
+  const handleInputChange = event => {
+    const {name, value} = event.target;
+    setFormData(prevFormData => ({
       ...prevFormData,
       [name]: value,
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
-    axios.post("http://localhost:4000/user/join", formData)
-      .then((response) => {
+    axios
+      .post('http://localhost:4000/user/join', formData)
+      .then(response => {
         console.log(response.data); // Do something with the response
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
       });
   };
 
-  const handleConfirmPasswordChange = (event) => {
+  const handleConfirmPasswordChange = event => {
     const confirmPassword = event.target.value;
     //const password = formData.password;
-    const password = event.target.form.password.value
-    console.log("password",password)
-    console.log("confirmPassword",confirmPassword)
+    const password = event.target.form.password.value;
+    console.log('password', password);
+    console.log('confirmPassword', confirmPassword);
     if (password !== confirmPassword) {
-      
-     setPasswordError("Passwords do not match");
-      console.log("if")
+      setPasswordError('Passwords do not match');
+      console.log('if');
     } else {
-      
-      setPasswordError("");
-      console.log("else")
+      setPasswordError('');
+      console.log('else');
     }
   };
 
-
-  return ( <FormWrapper>
-    <FormContainer onSubmit={handleSubmit}>
-      <InputContainer>
-        <InputLabel>이름</InputLabel>
-        <Input
-          type="text"
-          name="username"
-          value={formData.username}
-          onChange={handleInputChange}
-          required
-        />
-      </InputContainer>
-      <InputContainer>
-        <InputLabel>비밀번호</InputLabel>
-        <Input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleInputChange}
-          required
-        />
-      </InputContainer>
-      <InputLabel>비밀번호 확인</InputLabel>
+  return (
+    <FormWrapper>
+      <FormContainer onSubmit={handleSubmit}>
+        <InputContainer>
+          <InputLabel>이름</InputLabel>
+          <Input
+            type="text"
+            name="username"
+            value={formData.username}
+            onChange={handleInputChange}
+            required
+          />
+        </InputContainer>
+        <InputContainer>
+          <InputLabel>비밀번호</InputLabel>
+          <Input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleInputChange}
+            required
+          />
+        </InputContainer>
+        <InputLabel>비밀번호 확인</InputLabel>
         <Input
           type="password"
           name="confirmPassword"
@@ -139,15 +132,13 @@ function JoinPage() {
           onKeyUp={handleConfirmPasswordChange} // 비밀번호 입력 후 일치 여부 확인
           required
         />
-      {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
-      <SubmitButton type="submit" disabled={passwordError}>
-        Sign Up
-      </SubmitButton>
-    </FormContainer>
-  </FormWrapper>
-);
-
-
+        {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
+        <SubmitButton type="submit" disabled={passwordError}>
+          Sign Up
+        </SubmitButton>
+      </FormContainer>
+    </FormWrapper>
+  );
 }
 
 export default JoinPage;

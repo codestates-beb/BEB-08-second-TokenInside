@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import {motion} from 'framer-motion';
-// import {useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import {Col} from '../styles';
-
-const WelcomeWords = styled.div`
-  // background-color: #00214d;
-  // background-color: #202020;
+import {Link} from 'react-router-dom';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import {data} from '../data';
+const WriteBox = styled.div`
   margin-top: 50px;
   padding: 30px 30px;
   display: flex;
@@ -31,36 +31,56 @@ const ListTitle = styled.div`
   font-weight: 600;
 `;
 
-const ListContainer = styled.div`
+const WriteBtn = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-left: 30px;
-  margin-right: 30px;
+  padding: 15px;
+  font-size: 20px;
+  color: white;
+  border-radius: 9px;
+  background: ${props => props.theme.colors.primary2};
+  :hover {
+    cursor: pointer;
+  }
 `;
-
-const Wallpaper = styled.div`
-  width: 100%;
-  height: 1000px;
-  padding: 30px;
-  font-color: white;
-`;
-const ImageContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-repeat: no-repeat;
-  border-radius: 40px;
+const Post = styled.div`
+  border: 1px solid skyblue;
+  margin: 15px;
+  padding: 8px;
 `;
 function MainPage() {
+  const [offset, setOffset] = useState(1);
+  const [post, SetPost] = useState(data.slice(0, 20));
+  const [hasMore, setHasMore] = useState(true);
+  const fetchMoreData = () => {
+    if (post.length < 500) {
+      setTimeout(() => {
+        SetPost(post.concat(Array.from({length: 20})));
+      }, 1100);
+    } else {
+      setHasMore(false);
+    }
+  };
   return (
     <Container>
-      <Wallpaper>
-        <WelcomeWords>
-          <span>Write posts, get incentive!</span>
-        </WelcomeWords>
-        <ImageContainer />
-      </Wallpaper>
+      <WriteBox>
+        <Link to="/write">
+          <WriteBtn>Write posts, get incentive!</WriteBtn>
+        </Link>
+      </WriteBox>
+      <InfiniteScroll
+        dataLength={post.length}
+        next={fetchMoreData}
+        hasMore={hasMore}
+        loader={<p>로딩중~</p>}
+        endMessage={<p></p>}
+      >
+        {post &&
+          post.map((item, index) => {
+            return <Post>This is a div #{index + 1}</Post>;
+          })}
+      </InfiniteScroll>
     </Container>
   );
 }
