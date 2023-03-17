@@ -126,21 +126,6 @@ function JoinPage() {
       });
   };
 
-  const handleConfirmPasswordChange = event => {
-    const confirmPassword = event.target.value;
-    //const password = formData.password;
-    const password = event.target.form.password.value;
-    console.log('password', password);
-    console.log('confirmPassword', confirmPassword);
-    if (password !== confirmPassword) {
-      setPasswordError('Passwords do not match');
-      console.log('if');
-    } else {
-      setPasswordError('');
-      console.log('else');
-    }
-  };
-
   return (
     <FormWrapper>
       <FormContainer onSubmit={handleSubmit}>

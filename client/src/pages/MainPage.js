@@ -54,9 +54,10 @@ function MainPage() {
   const [post, SetPost] = useState(data.slice(0, 20));
   const [hasMore, setHasMore] = useState(true);
   const fetchMoreData = () => {
-    if (post.length < 500) {
+    if (post.length < 200) {
       setTimeout(() => {
-        SetPost(post.concat(Array.from({length: 20})));
+        setOffset(offset + 1);
+        SetPost([...post, ...data.slice(offset * 20, (offset + 1) * 20)]);
       }, 1100);
     } else {
       setHasMore(false);
@@ -78,7 +79,13 @@ function MainPage() {
       >
         {post &&
           post.map((item, index) => {
-            return <Post>This is a div #{index + 1}</Post>;
+            return (
+              <Post>
+                This is a div #{item.id}
+                <div>{item.title}</div>
+                <div>{item.content}</div>
+              </Post>
+            );
           })}
       </InfiniteScroll>
     </Container>
