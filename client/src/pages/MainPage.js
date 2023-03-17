@@ -81,9 +81,10 @@ function MainPage() {
           post.map((item, index) => {
             return (
               <Post>
-                This is a div #{item.id}
-                <div>{item.title}</div>
-                <div>{item.content}</div>
+                #{item.id} {item.created_at}
+                <div>작성자: {item.user_id}</div>
+                <div>제목: {item.title}</div>
+                <div>내용: {item.content}</div>
               </Post>
             );
           })}
