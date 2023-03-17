@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-
+import {useParams} from 'react-router-dom';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -68,6 +68,7 @@ const Button = styled.button`
 
 function DetailPage() {
   const [post, setPost] = useState({});
+  const {id} = useParams();
 
   useEffect(() => {
     axios.get('https://jsonplaceholder.typicode.com/posts/1').then(response => {
@@ -80,7 +81,7 @@ function DetailPage() {
       <Title>게시물 조회 페이지</Title>
       <PostContainer>
         <PostHeader>
-          <PostNumber>번호 : {post.id}</PostNumber>
+          <PostNumber>번호 : {id}</PostNumber>
         </PostHeader>
         <PostHeader>
           <PostAuthor>작성자 : {post.userId}</PostAuthor>
