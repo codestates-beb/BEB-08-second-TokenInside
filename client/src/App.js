@@ -27,7 +27,7 @@ function App() {
         <Route path="/market" element={<MarketPage />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/write" element={<WritePage />} />
-        <Route path="/detail" element={<DetailPage />} />
+        <Route path="/detail/:id" element={<DetailPage />} />
         <Route path="/join" element={<JoinPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>

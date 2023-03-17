@@ -120,7 +120,7 @@ function Header() {
               <Menu>Market</Menu>
             </Link>
 
-            <Link to="/writepage">
+            <Link to="/write">
               <Menu>Write</Menu>
             </Link>
           </Nav>
@@ -128,10 +128,11 @@ function Header() {
 
         <Column>
           <WalletBtn onClick={() => {}}>
-            <Link to="/loginpage">Login</Link>
+            <Link to="/login">Login</Link>
           </WalletBtn>
+
           <WalletBtn onClick={() => {}}>
-            <Link to="/joinpage">Register</Link>
+            <Link to="/join">Register</Link>
           </WalletBtn>
         </Column>
       </Wrapper>
