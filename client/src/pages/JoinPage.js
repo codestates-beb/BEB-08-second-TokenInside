@@ -2,10 +2,10 @@ import styled from 'styled-components';
 import React, {useState} from 'react';
 import axios from 'axios';
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
+// const Container = styled.div`
+//   display: flex;
+//   flex-direction: column;
+// `;
 
 const FormWrapper = styled.div`
   display: flex;
@@ -32,14 +32,6 @@ const InputLabel = styled.label`
   font-weight: bold;
   margin-bottom: 0.5rem;
 `;
-
-// const Input = styled.input`
-//   padding: 0.5rem;
-//   font-size: 1rem;
-//   border: 1px solid gray;
-//   border-radius: 5px;
-//   width: 100%;
-// `;
 
 const Input = styled.input`
   padding: 0.5rem;
@@ -130,11 +122,11 @@ function JoinPage() {
     <FormWrapper>
       <FormContainer onSubmit={handleSubmit}>
         <InputContainer>
-          <InputLabel>닉네임</InputLabel>
+          <InputLabel>ID</InputLabel>
           <Input
             type="text"
             name="username"
-            placeholder="닉네임을 입력하세요."
+            placeholder="아이디을 입력하세요."
             value={formData.username}
             onChange={handleInputChange}
             onKeyUp={handleUsernameChange}
@@ -144,7 +136,7 @@ function JoinPage() {
           {usernameError && <ErrorMessage>{usernameError}</ErrorMessage>}
         </InputContainer>
         <InputContainer>
-          <InputLabel>비밀번호</InputLabel>
+          <InputLabel>Password</InputLabel>
           <Input
             type="password"
             name="password"
@@ -157,7 +149,7 @@ function JoinPage() {
           />
         </InputContainer>
         <InputContainer>
-          <InputLabel>비밀번호 확인</InputLabel>
+          <InputLabel>Confirm Password</InputLabel>
           <Input
             type="password"
             name="confirmPassword"
