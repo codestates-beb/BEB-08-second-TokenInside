@@ -2,11 +2,6 @@ import styled from 'styled-components';
 import React, {useState} from 'react';
 import axios from 'axios';
 
-// const Container = styled.div`
-//   display: flex;
-//   flex-direction: column;
-// `;
-
 const FormWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -129,22 +124,16 @@ function JoinPage() {
             placeholder="아이디을 입력하세요."
             value={formData.username}
             onChange={handleInputChange}
-            onKeyUp={handleUsernameChange}
-            width="600px"
             required
           />
-          {usernameError && <ErrorMessage>{usernameError}</ErrorMessage>}
         </InputContainer>
         <InputContainer>
           <InputLabel>Password</InputLabel>
           <Input
             type="password"
             name="password"
-            placeholder="비밀번호를 입력하세요."
             value={formData.password}
             onChange={handleInputChange}
-            onKeyUp={handlePasswordChange}
-            width="600px"
             required
           />
         </InputContainer>
