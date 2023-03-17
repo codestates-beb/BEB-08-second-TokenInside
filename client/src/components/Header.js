@@ -116,7 +116,7 @@ function Header() {
             </SearchBox>
           </Search>
           <Nav>
-            <Link to="/marketpage">
+            <Link to="/market">
               <Menu>Market</Menu>
             </Link>
 
@@ -132,7 +132,7 @@ function Header() {
           </WalletBtn>
 
           <WalletBtn onClick={() => {}}>
-            <Link to="/join">Register</Link>
+            <Link to="/join">회원가입</Link>
           </WalletBtn>
         </Column>
       </Wrapper>

@@ -70,7 +70,6 @@ const Button = styled.button`
 
 function DetailPage() {
   const [post, setPost] = useState({});
-  const [data, SetData] = useState(data.slice(0, 20));
   const {id} = useParams();
 
   useEffect(() => {

@@ -30,6 +30,7 @@ function App() {
         <Route path="/detail/:id" element={<DetailPage />} />
         <Route path="/join" element={<JoinPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
     </ThemeProvider>
