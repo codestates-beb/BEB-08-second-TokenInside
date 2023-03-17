@@ -126,31 +126,18 @@ function JoinPage() {
       });
   };
 
-  const handleConfirmPasswordChange = event => {
-    const confirmPassword = event.target.value;
-    //const password = formData.password;
-    const password = event.target.form.password.value;
-    console.log('password', password);
-    console.log('confirmPassword', confirmPassword);
-    if (password !== confirmPassword) {
-      setPasswordError('Passwords do not match');
-      console.log('if');
-    } else {
-      setPasswordError('');
-      console.log('else');
-    }
-  };
-
   return (
     <FormWrapper>
       <FormContainer onSubmit={handleSubmit}>
         <InputContainer>
-          <InputLabel>이름</InputLabel>
+          <InputLabel>닉네임</InputLabel>
           <Input
             type="text"
             name="username"
+            placeholder="영문자 숫자를 섞어서 5자 이상이어야 합니다. "
             value={formData.username}
             onChange={handleInputChange}
+            width="600px"
             required
           />
         </InputContainer>
@@ -159,21 +146,26 @@ function JoinPage() {
           <Input
             type="password"
             name="password"
+            placeholder="비밀번호를 입력하세요. 영문자,숫자, 특수문자를 섞어서 8자 이상이어야 합니다."
             value={formData.password}
             onChange={handleInputChange}
+            width="600px"
             required
           />
         </InputContainer>
-        <InputLabel>비밀번호 확인</InputLabel>
-        <Input
-          type="password"
-          name="confirmPassword"
-          placeholder="비밀번호를 똑같이 입력하세요."
-          value={formData.confirmPassword}
-          onChange={handleInputChange}
-          onKeyUp={handleConfirmPasswordChange} // 비밀번호 입력 후 일치 여부 확인
-          required
-        />
+        <InputContainer>
+          <InputLabel>비밀번호 확인</InputLabel>
+          <Input
+            type="password"
+            name="confirmPassword"
+            placeholder="비밀번호를 똑같이 입력하세요."
+            value={formData.confirmPassword}
+            onChange={handleInputChange}
+            onKeyUp={handleConfirmPasswordChange} // 비밀번호 입력 후 일치 여부 확인
+            width="600px"
+            required
+          />
+        </InputContainer>
         {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
         <SubmitButton type="submit" disabled={passwordError}>
           Sign Up

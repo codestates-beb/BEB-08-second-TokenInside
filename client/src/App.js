@@ -23,11 +23,11 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="/marketpage" element={<MarketPage />} />
+        <Route path="/market" element={<MarketPage />} />
         <Route path="/mypage" element={<MyPage />} />
-        <Route path="/writepage" element={<WritePage />} />
-        <Route path="/detailpage" element={<DetailPage />} />
-        <Route path="/joinpage" element={<JoinPage />} />
+        <Route path="/write" element={<WritePage />} />
+        <Route path="/detail" element={<DetailPage />} />
+        <Route path="/join" element={<JoinPage />} />
       </Routes>
       <Footer />
     </ThemeProvider>
