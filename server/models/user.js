@@ -8,16 +8,16 @@ class User extends Sequelize.Model {
       {
         // 첫번째 객체 인수는 테이블 필드에 대한 설정
         nickname: {
-          type: Sequelize.STRING(20),
+          type: Sequelize.STRING,
           allowNull: false,
           unique: true,
         },
         password: {
-          type: Sequelize.STRING(20),
+          type: Sequelize.STRING,
           allowNull: false,
         },
         address: {
-          type: Sequelize.STRING(20),
+          type: Sequelize.STRING,
           allowNull: false,
         },
         token_amount: {

@@ -2,6 +2,11 @@ import styled from 'styled-components';
 import React, {useState} from 'react';
 import axios from 'axios';
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const FormWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -50,12 +55,10 @@ const SubmitButton = styled.button`
   cursor: pointer;
 `;
 
-function JoinPage() {
+function LoginPage() {
   const [formData, setFormData] = useState({
     username: '',
-    email: '',
     password: '',
-    confirmPassword: '',
   });
 
   const [passwordError, setPasswordError] = useState('');
@@ -67,27 +70,6 @@ function JoinPage() {
       ...prevFormData,
       [name]: value,
     }));
-  };
-
-  const handleConfirmPasswordChange = event => {
-    const confirmPassword = event.target.value;
-    const password = event.target.form.password.value;
-    if (password !== confirmPassword) {
-      setPasswordError('Passwords do not match');
-    } else {
-      setPasswordError('');
-    }
-  };
-
-  const handleUsernameChange = event => {
-    const username = event.target.value;
-    if (!/^[A-Za-z0-9]{5,}$/.test(username)) {
-      setUsernameError(
-        'Username must be at least 5 characters long and contain only letters and numbers',
-      );
-    } else {
-      setUsernameError('');
-    }
   };
 
   const handlePasswordChange = event => {
@@ -104,7 +86,7 @@ function JoinPage() {
   const handleSubmit = event => {
     event.preventDefault();
     axios
-      .post('http://localhost:4000/user/join', formData)
+      .post('http://localhost:4000/user/login', formData)
       .then(response => {
         console.log(response.data); // Do something with the response
       })
@@ -121,9 +103,10 @@ function JoinPage() {
           <Input
             type="text"
             name="username"
-            placeholder="아이디을 입력하세요."
+            placeholder="아이디를 입력하세요"
             value={formData.username}
             onChange={handleInputChange}
+            width="600px"
             required
           />
         </InputContainer>
@@ -132,31 +115,20 @@ function JoinPage() {
           <Input
             type="password"
             name="password"
+            placeholder="비밀번호를 입력하세요"
             value={formData.password}
             onChange={handleInputChange}
-            required
-          />
-        </InputContainer>
-        <InputContainer>
-          <InputLabel>Confirm Password</InputLabel>
-          <Input
-            type="password"
-            name="confirmPassword"
-            placeholder="비밀번호를 똑같이 입력하세요."
-            value={formData.confirmPassword}
-            onChange={handleInputChange}
-            onKeyUp={handleConfirmPasswordChange} // 비밀번호 입력 후 일치 여부 확인
+            onKeyUp={handlePasswordChange}
             width="600px"
             required
           />
           {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
         </InputContainer>
         <SubmitButton type="submit" disabled={passwordError || usernameError}>
-          Sign Up
+          Log In
         </SubmitButton>
       </FormContainer>
     </FormWrapper>
   );
 }
-
-export default JoinPage;
+export default LoginPage;

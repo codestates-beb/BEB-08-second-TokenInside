@@ -127,7 +127,9 @@ function Header() {
         </Column>
 
         <Column>
-          <WalletBtn onClick={() => {}}>Login</WalletBtn>
+          <WalletBtn onClick={() => {}}>
+            <Link to="/loginpage">Login</Link>
+          </WalletBtn>
           <WalletBtn onClick={() => {}}>
             <Link to="/join">회원가입</Link>
           </WalletBtn>
