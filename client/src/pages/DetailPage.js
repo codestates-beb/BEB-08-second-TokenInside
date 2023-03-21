@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import {useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -67,6 +67,7 @@ const Button = styled.button`
 `;
 
 function DetailPage() {
+  const navigate = useNavigate();
   const [post, setPost] = useState({});
   const {id} = useParams();
 
@@ -96,7 +97,7 @@ function DetailPage() {
           <PostContent>본문 : {post.body}</PostContent>
         </PostHeader>
       </PostContainer>
-      <Button onClick={() => (window.location.href = 'http://localhost:4000')}>게시글 목록</Button>
+      <Button onClick={() => navigate('/')}>게시글 목록</Button>
     </Container>
   );
 }
