@@ -4,7 +4,21 @@ const {User, Post} = require('../models');
 
 exports.detail_get = async (req, res, next) => {
   try {
-    res.status(200).send('hello world');
+    const data = [
+      {
+        user_id: 1,
+        title: 'Had tabirfuz',
+        content: 'Guve',
+        created_at: '2023-02-21T16:05:57.621Z',
+      },
+      {
+        user_id: 10,
+        title: 'Isoso tibrag',
+        content: 'Zevu docz',
+        created_at: '2023-07-06T02:29:35.423Z',
+      },
+    ];
+    const posts = await Post.bulkCreate(data);
   } catch (e) {
     throw Error(e);
   }
