@@ -5,6 +5,7 @@ import {Col} from '../styles';
 import {Link, useNavigate} from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {data} from '../data';
+import axios from 'axios';
 const WriteBox = styled.div`
   margin-top: 50px;
   padding: 30px 30px;
@@ -55,7 +56,8 @@ const Post = styled.div`
 function MainPage() {
   const navigate = useNavigate();
   const [offset, setOffset] = useState(1);
-  const [post, SetPost] = useState(data.slice(0, 20));
+  const [post, SetPost] = useState([]);
+  // const [post, SetPost] = useState(data.slice(0, 20));
   const [hasMore, setHasMore] = useState(true);
   const fetchMoreData = () => {
     if (post.length < 200) {
@@ -70,12 +72,40 @@ function MainPage() {
   const handleClick = id => {
     navigate(`/detail/${id}`);
   };
+  // const getPosts = async () => {
+  //   await axios
+  //     .get('http://localhost:5500')
+  //     .then(response => {
+  //       SetPost([...post, response.data.data]);
+  //       console.log('main_get: ', response.data.data); // Do something with the response
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     });
+  // };
+  useEffect(() => {
+    // getPosts();
+    axios
+      .get('http://localhost:5500')
+      .then(response => {
+        SetPost([...post, ...response.data.data]);
+        console.log('main_get: ', response.data.data); // Do something with the response
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
+
+  const test = () => {
+    console.log('post: ', post);
+  };
+
   return (
     <Container>
       <WriteBox>
-        <Link to="/write">
-          <WriteBtn>Write posts, get incentive!</WriteBtn>
-        </Link>
+        {/* <Link to="/write"> */}
+        <WriteBtn onClick={() => test()}>Write posts, get incentive!</WriteBtn>
+        {/* </Link> */}
       </WriteBox>
       <InfiniteScroll
         dataLength={post.length}

@@ -4,6 +4,8 @@ const path = require('path');
 const morgan = require('morgan');
 const Web3 = require('web3');
 const session = require('express-session');
+const cors = require('cors');
+
 // const MemoryStore = require("memorystore")(session);
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
@@ -25,7 +27,7 @@ app.use(morgan('dev')); // 로그
 app.use(express.static(path.join(__dirname, 'public'))); // 요청시 기본 경로 설정
 app.use(express.json()); // json 파싱
 app.use(express.urlencoded({extended: false})); // uri 파싱
-
+app.use(cors());
 app.use(
   session({
     secret: 'Hello!',
