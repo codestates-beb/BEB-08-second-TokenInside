@@ -62,7 +62,7 @@ function LoginPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
-    username: '',
+    nickname: '',
     password: '',
   });
 
@@ -91,7 +91,7 @@ function LoginPage() {
   const handleSubmit = event => {
     event.preventDefault();
     axios
-      .post('http://localhost:5500/user/login', formData)
+      .post('http://localhost:5500/user/login', formData, {withCredentials: true})
       .then(response => {
         console.log(response.data); // Do something with the response
       })
@@ -111,9 +111,9 @@ function LoginPage() {
           <InputLabel>ID</InputLabel>
           <Input
             type="text"
-            name="username"
+            name="nickname"
             placeholder="아이디를 입력하세요"
-            value={formData.username}
+            value={formData.nickname}
             onChange={handleInputChange}
             width="600px"
             required

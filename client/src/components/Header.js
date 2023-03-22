@@ -4,6 +4,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCoins, faSearch} from '@fortawesome/free-solid-svg-icons';
 import {useDispatch, useSelector} from 'react-redux';
 import {logout} from '../store';
+import axios from 'axios';
 const Head = styled.div`
   z-index: 5;
   width: 100%;
@@ -99,6 +100,17 @@ function Header() {
   const showState = () => {
     console.log('header isLoggedIn: ', isLoggedIn);
   };
+  async function postFaucet() {
+    axios
+      .post('http://localhost:5500/user/faucet', null, {withCredentials: true})
+      .then(response => {
+        console.log(response.data); // Do something with the response
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
   return (
     <Head className="header">
       <Wrapper>
@@ -133,7 +145,7 @@ function Header() {
               <Menu>Write</Menu>
             </Link>
             <Link to="/write">
-              <Menu>ETH Faucet</Menu>
+              <Menu onClick={() => postFaucet()}>ETH Faucet</Menu>
             </Link>
           </Nav>
         </Column>
