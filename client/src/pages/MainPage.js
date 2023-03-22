@@ -72,19 +72,8 @@ function MainPage() {
   const handleClick = id => {
     navigate(`/detail/${id}`);
   };
-  // const getPosts = async () => {
-  //   await axios
-  //     .get('http://localhost:5500')
-  //     .then(response => {
-  //       SetPost([...post, response.data.data]);
-  //       console.log('main_get: ', response.data.data); // Do something with the response
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     });
-  // };
+
   useEffect(() => {
-    // getPosts();
     axios
       .get('http://localhost:5500')
       .then(response => {
