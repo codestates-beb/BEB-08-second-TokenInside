@@ -83,7 +83,7 @@ function JoinPage() {
     const nickname = event.target.value;
     if (!/^[A-Za-z0-9]{5,}$/.test(nickname)) {
       setUsernameError(
-        'Username must be at least 5 characters long and contain only letters and numbers',
+        'nickname must be at least 5 characters long and contain only letters and numbers',
       );
     } else {
       setUsernameError('');
