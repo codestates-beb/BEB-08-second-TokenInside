@@ -116,20 +116,22 @@ function Header() {
             </SearchBox>
           </Search>
           <Nav>
-            <Link to="/marketpage">
+            <Link to="/market">
               <Menu>Market</Menu>
             </Link>
 
-            <Link to="/writepage">
+            <Link to="/write">
               <Menu>Write</Menu>
             </Link>
           </Nav>
         </Column>
 
         <Column>
-          <WalletBtn onClick={() => {}}>Login</WalletBtn>
           <WalletBtn onClick={() => {}}>
-            <Link to="/joinpage">회원가입</Link>
+            <Link to="/login">Login</Link>
+          </WalletBtn>
+          <WalletBtn onClick={() => {}}>
+            <Link to="/join">회원가입</Link>
           </WalletBtn>
         </Column>
       </Wrapper>

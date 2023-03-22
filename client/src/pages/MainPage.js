@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import {motion} from 'framer-motion';
 import {useState, useEffect} from 'react';
 import {Col} from '../styles';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {data} from '../data';
 const WriteBox = styled.div`
@@ -48,19 +48,27 @@ const Post = styled.div`
   border: 1px solid skyblue;
   margin: 15px;
   padding: 8px;
+  :hover {
+    cursor: pointer;
+  }
 `;
 function MainPage() {
+  const navigate = useNavigate();
   const [offset, setOffset] = useState(1);
   const [post, SetPost] = useState(data.slice(0, 20));
   const [hasMore, setHasMore] = useState(true);
   const fetchMoreData = () => {
-    if (post.length < 500) {
+    if (post.length < 200) {
       setTimeout(() => {
-        SetPost(post.concat(Array.from({length: 20})));
+        setOffset(offset + 1);
+        SetPost([...post, ...data.slice(offset * 20, (offset + 1) * 20)]);
       }, 1100);
     } else {
       setHasMore(false);
     }
+  };
+  const handleClick = id => {
+    navigate(`/detail/${id}`);
   };
   return (
     <Container>
@@ -78,7 +86,14 @@ function MainPage() {
       >
         {post &&
           post.map((item, index) => {
-            return <Post>This is a div #{index + 1}</Post>;
+            return (
+              <Post key={index} onClick={() => handleClick(item.id)}>
+                #{item.id} {item.created_at}
+                <div>작성자: {item.user_id}</div>
+                <div>제목: {item.title}</div>
+                <div>내용: {item.content}</div>
+              </Post>
+            );
           })}
       </InfiniteScroll>
     </Container>
