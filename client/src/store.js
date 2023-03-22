@@ -3,12 +3,14 @@ import {createStore} from 'redux';
 const initialState = {
   isLoggedIn: false,
   user: null,
+  address: null,
 };
 
-export const login = user => {
+export const login = (user, address) => {
   return {
     type: 'LOGIN',
-    payload: user,
+    user: user,
+    address: address,
   };
 };
 
@@ -24,13 +26,15 @@ const loginReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoggedIn: true,
-        user: action.payload,
+        user: action.user,
+        address: action.address,
       };
     case 'LOGOUT':
       return {
         ...state,
         isLoggedIn: false,
         user: null,
+        address: null,
       };
     default:
       return state;

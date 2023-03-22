@@ -16,15 +16,13 @@ import JoinPage from './pages/JoinPage';
 import NotFound from './pages/NotFound';
 import LoginPage from './pages/LoginPage';
 import MintPage from './pages/MintPage';
+import PrivateRoute from './pages/PrivateRoute';
 
 // Components
 import Header from './components/Header';
 import Footer from './components/Footer';
 
 function App() {
-  const isLoggedIn = useSelector(state => state.isLoggedIn);
-  const user = useSelector(state => state.user);
-  const dispatch = useDispatch();
   return (
     <ThemeProvider theme={lightTheme}>
       <GlobalStyles />
@@ -32,7 +30,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/market" element={<MarketPage />} />
-        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage" element={<PrivateRoute element={<MyPage />} />} />
         <Route path="/write" element={<WritePage />} />
         <Route path="/detail/:id" element={<DetailPage />} />
         <Route path="/join" element={<JoinPage />} />

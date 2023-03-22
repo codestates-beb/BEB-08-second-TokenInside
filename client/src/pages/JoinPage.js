@@ -104,9 +104,9 @@ function JoinPage() {
   const handleSubmit = event => {
     event.preventDefault();
     axios
-      .post('http://localhost:4000/user/join', formData)
+      .post('http://localhost:5500/user/join', formData)
       .then(response => {
-        console.log(response.data); // Do something with the response
+        console.log(response.message, response.data); // Do something with the response
       })
       .catch(error => {
         console.error(error);

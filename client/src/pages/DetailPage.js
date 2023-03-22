@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import {data} from '../data';
-import {useParams, useNavigate} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
@@ -73,18 +72,17 @@ const Button = styled.button`
 `;
 
 function DetailPage() {
+  const navigate = useNavigate();
   const [post, setPost] = useState({});
   const {id} = useParams();
-  const navigate = useNavigate();
 
   useEffect(() => {
     //백엔드 api가 조회될 때
     // axios.get(`https://jsonplaceholder.typicode.com/comments/${id}`).then(response => {
     //   setPost(response.data);
     // });
-
     //dummy data조회 용
-    setPost(data);
+    // setPost(data);
   }, [id]);
   // console.log('id', id);
   // console.log('data', data);
@@ -95,7 +93,7 @@ function DetailPage() {
         <PostHeader>
           <PostNumber>번호 : {id}</PostNumber>
         </PostHeader>
-        <PostHeader>
+        {/* <PostHeader>
           <PostAuthor>작성자 : {data[id].user_id}</PostAuthor>
         </PostHeader>
         <PostHeader>
@@ -106,7 +104,7 @@ function DetailPage() {
         </PostHeader>
         <PostHeader>
           <PostContent>본문 : {data[id].content}</PostContent>
-        </PostHeader>
+        </PostHeader> */}
       </PostContainer>
       <Button onClick={() => navigate('/')}>게시글 목록</Button>
     </Container>
