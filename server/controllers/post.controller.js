@@ -4,23 +4,30 @@ const {User, Post} = require('../models');
 
 exports.detail_get = async (req, res, next) => {
   try {
-    const data = [
-      {
-        user_id: 1,
-        title: 'Had tabirfuz',
-        content: 'Guve',
-        created_at: '2023-02-21T16:05:57.621Z',
+    //1. URL params에서 post_id 가져오기
+    console.log(req.params);
+    const post_id = req.params.post_id;
+    console.log(post_id);
+    //2. DB에서 해당 포스트 불러오기
+    const post = await Post.findOne({
+      where: {
+        id: post_id,
       },
-      {
-        user_id: 10,
-        title: 'Isoso tibrag',
-        content: 'Zevu docz',
-        created_at: '2023-07-06T02:29:35.423Z',
-      },
-    ];
-    const posts = await Post.bulkCreate(data);
-  } catch (e) {
-    throw Error(e);
+    });
+    if (!post) {
+      return res.status(404).json({
+        message: '게시물을 찾을 수 없음',
+      });
+    }
+    //3. 프론트로 post 데이터 보내주기
+    res.status(200).json({
+      message: '게시물을 성공적으로 가져왔습니다.',
+      post: post,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: '게시물 가져오기에 실패했습니다!',
+    });
   }
 };
 
