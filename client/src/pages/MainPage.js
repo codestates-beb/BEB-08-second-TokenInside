@@ -5,6 +5,7 @@ import {Col} from '../styles';
 import {Link, useNavigate} from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {data} from '../data';
+import axios from 'axios';
 const WriteBox = styled.div`
   margin-top: 50px;
   padding: 30px 30px;
@@ -53,6 +54,15 @@ const Post = styled.div`
   }
 `;
 function MainPage() {
+  axios
+    .get('http://localhost:5000')
+    .then(response => {
+      console.log('main_get: ', response.data); // Do something with the response
+    })
+    .catch(error => {
+      console.error(error);
+    });
+
   const navigate = useNavigate();
   const [offset, setOffset] = useState(1);
   const [post, SetPost] = useState(data.slice(0, 20));

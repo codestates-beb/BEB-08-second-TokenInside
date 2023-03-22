@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import {useNavigate, useParams} from 'react-router-dom';
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
