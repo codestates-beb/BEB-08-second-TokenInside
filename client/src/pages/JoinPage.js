@@ -52,7 +52,7 @@ const SubmitButton = styled.button`
 
 function JoinPage() {
   const [formData, setFormData] = useState({
-    username: '',
+    nickname: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -80,8 +80,8 @@ function JoinPage() {
   };
 
   const handleUsernameChange = event => {
-    const username = event.target.value;
-    if (!/^[A-Za-z0-9]{5,}$/.test(username)) {
+    const nickname = event.target.value;
+    if (!/^[A-Za-z0-9]{5,}$/.test(nickname)) {
       setUsernameError(
         'Username must be at least 5 characters long and contain only letters and numbers',
       );
@@ -104,9 +104,9 @@ function JoinPage() {
   const handleSubmit = event => {
     event.preventDefault();
     axios
-      .post('http://localhost:4000/user/join', formData)
+      .post('http://localhost:5500/user/join', formData)
       .then(response => {
-        console.log(response.data); // Do something with the response
+        console.log(response.message, response.data); // Do something with the response
       })
       .catch(error => {
         console.error(error);
@@ -120,9 +120,9 @@ function JoinPage() {
           <InputLabel>ID</InputLabel>
           <Input
             type="text"
-            name="username"
+            name="nickname"
             placeholder="아이디을 입력하세요."
-            value={formData.username}
+            value={formData.nickname}
             onChange={handleInputChange}
             required
           />

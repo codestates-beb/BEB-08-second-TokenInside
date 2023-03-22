@@ -6,6 +6,7 @@ const erc721abi = require('../contracts/erc721abi');
 const saltRounds = 10;
 const BN = require('bn.js');
 
+// 회원가입
 exports.join_post = async (req, res, next) => {
   try {
     // 1. front에서 데이터 받아오기
@@ -23,12 +24,12 @@ exports.join_post = async (req, res, next) => {
     }
     // 2-2. 없으면 계속 진행
     // 3. web3 사용해 가나슈 네트워크에 접속 후, 사용자의 비번을 이용한 지갑 생성
-    const web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:8555')); // 본인 가나슈 주소
+    const web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:7545')); // 본인 가나슈 주소
     //
-    const address = await web3.eth.personal.newAccount(password);
+    const address = await web3.eth.personal.newAccount(nickname);
     // server에게 erc20 토큰 사용권한 주기
-    const contract = new web3.eth.Contract(erc20abi, process.env.ERC20_CA);
-    const approve = await contract.methods.approve(process.env.SERVER_ADDRESS, 10000);
+    // const contract = new web3.eth.Contract(erc20abi, process.env.ERC20_CA);
+    // const approve = await contract.methods.approve(process.env.SERVER_ADDRESS, 10000);
     console.log(address);
 
     // 4. 비밀번호를 해싱
@@ -44,33 +45,25 @@ exports.join_post = async (req, res, next) => {
       token_amount: 0,
     });
     // 6. 프론트에 성공적으로 회원가입이 완료되었음을 알림
-    res
-      .status(200)
-      .send(
-        `회원가입을 성공했습니다, nickname :${nickname}, password :${newpassword} address :${address}`,
-      );
-
-    // const user = await User.findAll({
-    //   attributes: ["nickname"],
-    //   where: {
-    //     nickname,
-    //   },
-    // });
+    res.status(200).send({message: '회원가입을 축하합니다!', data: result});
   } catch (e) {
     throw Error(e);
   }
 };
 
+// 로그인
 exports.login_post = async (req, res, next) => {
   try {
     // 1. front에서 데이터 받아오기
     const {nickname, password} = req.body;
     // 2-1. db에서 nickname, password이 일치하는 user가 있는지 확인
+    console.log(nickname);
     const nicknameMatch = await User.findOne({
       where: {
         nickname,
       },
     });
+    console.log(nicknameMatch);
     // 2-2. nickname이 일치하는 계정이 있다면, 사용자가 입력한 비번과 해싱한 비번이 매치하는지 확인
     if (nicknameMatch) {
       const match = await bcrypt.compare(password, nicknameMatch.dataValues.password);
@@ -81,21 +74,22 @@ exports.login_post = async (req, res, next) => {
         req.session.loggedIn = true;
         req.session.user = JSON.stringify(nicknameMatch.dataValues);
         console.log(req.session);
-        return res.status(200).send(`로그인 성공 ! : ${JSON.stringify(nicknameMatch.dataValues)}`);
+        return res.status(200).send({message: '로그인 성공 했습니다!', data: nicknameMatch});
       } else {
         // 비밀번호만 일치하지 않는다면, "비밀번호를 확인하세요" 프론트에 보내줌
-        return res.status(400).send('비밀번호를 확인하세요');
+        return res.status(400).send({message: '비밀번호를 확인하세요', data: null});
       }
 
       // 3. nickname이 일치하는 계정이 없다면 "닉네임을 확인하세요" 프론트에 보내줌
     } else {
-      return res.status(400).send('닉네임을 확인하세요');
+      return res.status(400).send({message: '닉네임을 확인하세요', data: null});
     }
   } catch (e) {
     throw Error(e);
   }
 };
 
+// 유저끼리 erc20 토큰 전송 (미완성)
 exports.transfer_post = async (req, res, next) => {
   try {
     // 1. front에서 데이터 받아오기
@@ -140,14 +134,15 @@ exports.transfer_post = async (req, res, next) => {
   }
 };
 
-exports.faucet_get = async (req, res, next) => {
+// eth 수도꼭지
+exports.faucet_post = async (req, res, next) => {
   try {
     // 1. session에서 user address, id 받아오기
     const {address, id} = JSON.parse(req.session.user);
     console.log(address);
-    // 2. server계정에서 user 주소로 ETH 1 보내주기
+    // 2. server계정에서 user 주소로 ETH 0.1 보내주기
     const web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:8555'));
-    const myNumber = '1';
+    const myNumber = '0.1';
     const myUnit = 'ether';
     const myValue = new BN(await web3.utils.toWei(myNumber, myUnit));
 
@@ -164,19 +159,20 @@ exports.faucet_get = async (req, res, next) => {
       },
     });
 
-    const incrementEth = await user.increment('eth_amount', {by: 1});
+    const incrementEth = await user.increment('eth_amount', {by: 0.1});
     // 4. 프론트로 보내주기
     const resultUser = await User.findOne({
       where: {
         id,
       },
     });
-    return res.status(200).send(`0.1ETH 지급 완료, 잔액 :${resultUser.eth_amount}`);
+    return res.status(200).send({message: '이더 받기 성공!', data: resultUser.eth_amount});
   } catch (e) {
     throw Error(e);
   }
 };
 
+// 마이페이지
 exports.mypage_get = async (req, res, next) => {
   try {
     // 1. 세션으로부터 user id 정보 받아오기
@@ -187,22 +183,25 @@ exports.mypage_get = async (req, res, next) => {
         id,
       },
     });
+    console.log('user : ', user);
     const posts = await Post.findAll({
       where: {
         user_id: id,
       },
     });
+    console.log('posts : ', posts);
     const nfts = await Nft.findAll({
       where: {
         user_id: id,
       },
     });
+    console.log('nfts', nfts);
 
     // 3. 프론트에 보내주기
     console.log('user', user);
     console.log('posts', posts);
     console.log('nfts', nfts);
-    return res.status(200).send(user, posts, nfts);
+    return res.status(200).send({message: 'MyPage', data: {user, posts, nfts}});
   } catch (e) {
     throw Error(e);
   }
