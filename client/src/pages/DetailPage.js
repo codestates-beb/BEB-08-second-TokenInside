@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import {data} from '../data';
-import {useParams} from 'react-router-dom';
+import {useParams, useNavigate} from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
@@ -75,6 +75,7 @@ const Button = styled.button`
 function DetailPage() {
   const [post, setPost] = useState({});
   const {id} = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     //백엔드 api가 조회될 때
@@ -107,7 +108,7 @@ function DetailPage() {
           <PostContent>본문 : {data[id].content}</PostContent>
         </PostHeader>
       </PostContainer>
-      <Button onClick={() => (window.location.href = 'http://localhost:3000')}>게시글 목록</Button>
+      <Button onClick={() => navigate('/')}>게시글 목록</Button>
     </Container>
   );
 }

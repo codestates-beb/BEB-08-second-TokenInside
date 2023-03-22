@@ -52,7 +52,7 @@ const SubmitButton = styled.button`
 
 function JoinPage() {
   const [formData, setFormData] = useState({
-    username: '',
+    nickname: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -80,10 +80,10 @@ function JoinPage() {
   };
 
   const handleUsernameChange = event => {
-    const username = event.target.value;
-    if (!/^[A-Za-z0-9]{5,}$/.test(username)) {
+    const nickname = event.target.value;
+    if (!/^[A-Za-z0-9]{5,}$/.test(nickname)) {
       setUsernameError(
-        'Username must be at least 5 characters long and contain only letters and numbers',
+        'nickname must be at least 5 characters long and contain only letters and numbers',
       );
     } else {
       setUsernameError('');
@@ -120,9 +120,9 @@ function JoinPage() {
           <InputLabel>ID</InputLabel>
           <Input
             type="text"
-            name="username"
+            name="nickname"
             placeholder="아이디을 입력하세요."
-            value={formData.username}
+            value={formData.nickname}
             onChange={handleInputChange}
             required
           />
