@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 import React, {useState} from 'react';
 import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+import {login, logout} from '../store';
 
 const Container = styled.div`
   display: flex;
@@ -56,6 +59,8 @@ const SubmitButton = styled.button`
 `;
 
 function LoginPage() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -94,6 +99,10 @@ function LoginPage() {
         console.error(error);
       });
   };
+  const handleOnClick = e => {
+    dispatch(login('Lettie Estrada', 'aaaabbbbcccc111122223333')); // 완료 될때 redirect하도록 변경해야함
+    navigate('/');
+  };
 
   return (
     <FormWrapper>
@@ -127,6 +136,7 @@ function LoginPage() {
         <SubmitButton type="submit" disabled={passwordError || usernameError}>
           Log In
         </SubmitButton>
+        <button onClick={handleOnClick}>디버그 로그인</button>
       </FormContainer>
     </FormWrapper>
   );

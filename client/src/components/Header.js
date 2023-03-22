@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCoins, faSearch} from '@fortawesome/free-solid-svg-icons';
+import {useDispatch, useSelector} from 'react-redux';
+import {logout} from '../store';
 const Head = styled.div`
   z-index: 5;
   width: 100%;
@@ -77,7 +79,7 @@ const SearchBar = styled.input`
   }
 `;
 
-const WalletBtn = styled.div`
+const Btn = styled.div`
   margin-right: 10px;
   background-color: #87ceeb;
   font-weight: 600;
@@ -90,6 +92,13 @@ const WalletBtn = styled.div`
   }
 `;
 function Header() {
+  const isLoggedIn = useSelector(state => state.isLoggedIn);
+  const user = useSelector(state => state.user);
+  const address = useSelector(state => state.address);
+  const dispatch = useDispatch();
+  const showState = () => {
+    console.log('header isLoggedIn: ', isLoggedIn);
+  };
   return (
     <Head className="header">
       <Wrapper>
@@ -104,7 +113,7 @@ function Header() {
             </LogoIcon>
           </Link>
           <Link to="">
-            <Logo>TOKENINSIDE</Logo>
+            <Logo onClick={showState}>TOKENINSIDE</Logo>
           </Link>
 
           <Search>
@@ -123,17 +132,29 @@ function Header() {
             <Link to="/write">
               <Menu>Write</Menu>
             </Link>
+            <Link to="/write">
+              <Menu>ETH Faucet</Menu>
+            </Link>
           </Nav>
         </Column>
-
-        <Column>
-          <WalletBtn onClick={() => {}}>
-            <Link to="/login">Login</Link>
-          </WalletBtn>
-          <WalletBtn onClick={() => {}}>
-            <Link to="/join">회원가입</Link>
-          </WalletBtn>
-        </Column>
+        {isLoggedIn ? (
+          <>
+            {user} {address}
+            <Btn>
+              <Link to="/mypage">마이 페이지</Link>
+            </Btn>
+            <Btn onClick={() => dispatch(logout())}>로그아웃</Btn>
+          </>
+        ) : (
+          <Column>
+            <Btn>
+              <Link to="/login">Login</Link>
+            </Btn>
+            <Btn>
+              <Link to="/join">회원가입</Link>
+            </Btn>
+          </Column>
+        )}
       </Wrapper>
     </Head>
   );
