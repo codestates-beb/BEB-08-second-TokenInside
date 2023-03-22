@@ -18,9 +18,24 @@ class Nft extends Sequelize.Model {
           unique: true,
         },
         tx_hash: {
-          type: Sequelize.STRING(20),
+          type: Sequelize.STRING,
           allowNull: false,
           unique: true,
+        },
+        name: {
+          type: Sequelize.STRING,
+          allowNull: false,
+          unique: false,
+        },
+        description: {
+          type: Sequelize.TEXT,
+          allowNull: false,
+          unique: false,
+        },
+        tokenurl: {
+          type: Sequelize.STRING,
+          allowNull: false,
+          unique: false,
         },
       },
       {
