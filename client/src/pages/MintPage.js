@@ -128,7 +128,7 @@ const MintPage = () => {
     formData.ipfsurl = ipfsurl;
 
     try {
-      const response = await axios.post('http://localhost:5500/minting', formData);
+      const response = await axios.post('http://localhost:5500/nft/minting', formData);
       console.log('resoponse.data', response.data);
       navigate('/');
     } catch (error) {
