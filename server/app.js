@@ -27,7 +27,21 @@ app.use(morgan('dev')); // 로그
 app.use(express.static(path.join(__dirname, 'public'))); // 요청시 기본 경로 설정
 app.use(express.json()); // json 파싱
 app.use(express.urlencoded({extended: false})); // uri 파싱
-app.use(cors());
+const corsOptions = {
+  origin: true,
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+// app.use(
+//   cors(),
+//   //   {
+//   //   origin: 'http://localhost:3000/',
+//   //   credentials: true, // 크로스 도메인 허용
+//   //   methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD'],
+//   // }
+// );
+
 app.use(
   session({
     secret: 'Hello!',
@@ -36,6 +50,11 @@ app.use(
     store: new SequelizeStore({
       db: sequelize,
     }),
+    cookie: {
+      httpOnly: false,
+      //   secure: true,
+      //   sameSite: 'none',
+    },
   }),
 );
 
@@ -53,7 +72,7 @@ app.use('/', routes);
 
 // getAccounts();
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 5500;
 
 module.exports = app.listen(PORT, () => {
   console.log(`Server Listening on Port : ${PORT}!!!`);

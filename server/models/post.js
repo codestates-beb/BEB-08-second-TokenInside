@@ -13,11 +13,11 @@ class Post extends Sequelize.Model {
           unique: false,
         },
         title: {
-          type: Sequelize.STRING(20),
+          type: Sequelize.TEXT,
           allowNull: false,
         },
         content: {
-          type: Sequelize.STRING(20),
+          type: Sequelize.TEXT,
           allowNull: false,
         },
         created_at: {

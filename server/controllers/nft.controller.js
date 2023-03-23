@@ -30,6 +30,7 @@ exports.minting_post = async (req, res, next) => {
         //발급한 NFT전체 수를 가져옵니다.
         const token_id = await erc721Contract.methods.getTotalSupply().call();
         //NFT 데이터베이스에 각종 정보들을 넣어 줍니다.
+        //tx_hash 이부분은 따로 받아오지 않아서 작동이 안됩니다. 작동을 하려면 값을 변경하거나 db의 유니크 값을 수정하면 됩니다.
         const result =await Nft.create({
           user_id:userInfoBySession.id,
           token_id:token_id,
