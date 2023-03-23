@@ -91,7 +91,7 @@ function LoginPage() {
   const handleSubmit = event => {
     event.preventDefault();
     axios
-      .post('http://localhost:4000/user/login', formData)
+      .post('http://localhost:5500/user/login', formData)
       .then(response => {
         console.log(response.data); // Do something with the response
       })

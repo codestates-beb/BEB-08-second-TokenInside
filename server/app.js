@@ -53,7 +53,7 @@ app.use('/', routes);
 
 // getAccounts();
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 5500;
 
 module.exports = app.listen(PORT, () => {
   console.log(`Server Listening on Port : ${PORT}!!!`);
