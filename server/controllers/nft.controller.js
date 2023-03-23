@@ -1,6 +1,6 @@
 const Web3 = require('web3');
 const {User, Nft} = require('../models');
-const web3 = new Web3('HTTP://127.0.0.1:7545');
+const web3 = new Web3(`HTTP://127.0.0.1:${process.env.GANACHE_PORT}`);
 const erc20abi = require('./erc20Abi');
 const erc721abi = require('./erc721Abi');
 const erc20Contract = new web3.eth.Contract(erc20abi, process.env.ERC20_CA);

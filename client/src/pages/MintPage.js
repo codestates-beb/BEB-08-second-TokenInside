@@ -130,7 +130,7 @@ const MintPage = () => {
         {withCredentials: true},
       );
       console.log('resoponse.data', response.data);
-      // navigate('/');
+      navigate('/');
     } catch (error) {
       console.error(error);
     }
