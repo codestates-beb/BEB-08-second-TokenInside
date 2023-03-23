@@ -42,7 +42,8 @@ function WritePage() {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5500/', {title, content});
+      console.log('title, content', title, content);
+      await axios.post('http://localhost:5500/post/register', {title, content});
       alert('게시물이 작성되었습니다.');
       setTitle('');
       setContent('');
