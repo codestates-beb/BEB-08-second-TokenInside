@@ -142,10 +142,10 @@ function MyPage({user, address}) {
           </Tabs>
           {tab === 0 && (
             <ColLists>
-              {data.map(i => (
+              {nftInfo.map(i => (
                 <NftBox>
-                  <NftImg src={i.image_url} />
-                  <NftOwner>{i.owner}</NftOwner>
+                  <NftImg src={i.tokenurl} />
+                  <NftOwner>{i.user_id}</NftOwner>
                   <NftName>{i.name}</NftName>
                 </NftBox>
               ))}
