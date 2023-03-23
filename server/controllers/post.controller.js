@@ -1,5 +1,5 @@
 const Web3 = require('web3');
-const erc20abi = require('../contracts/erc20abi');
+const erc20abi = require('../abis/erc20Abi');
 const {User, Post} = require('../models');
 
 exports.detail_get = async (req, res, next) => {
@@ -60,7 +60,7 @@ exports.register_post = async (req, res, next) => {
 
       const contract = new web3.eth.Contract(erc20abi, process.env.ERC20_CA);
       const giveToken = await contract.methods
-        .transfer(user.address, 10)
+        .transfer(user.address, 1)
         .send({from: process.env.SERVER_ADDRESS});
       if (giveToken) {
         //5. 블록체인에서 토큰을 주었다면, db의 token_amount도 1 올려주기

@@ -1,8 +1,9 @@
 const {User, Post, Nft} = require('../models');
 const Web3 = require('web3');
 const bcrypt = require('bcrypt');
-const erc20abi = require('../contracts/erc20abi');
-const erc721abi = require('../contracts/erc721abi');
+
+const erc20abi = require('../abis/erc20Abi');
+
 const saltRounds = 10;
 const BN = require('bn.js');
 
@@ -25,9 +26,13 @@ exports.join_post = async (req, res, next) => {
     }
     // 2-2. 없으면 계속 진행
     // 3. web3 사용해 가나슈 네트워크에 접속 후, 사용자의 비번을 이용한 지갑 생성
-    const web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:8555')); // 본인 가나슈 주소
+    const web3 = new Web3(
+      new Web3.providers.HttpProvider(`http://127.0.0.1:${process.env.GANACHE_PORT}`),
+    ); // 본인 가나슈 주소
     //
-    const address = await web3.eth.personal.newAccount(nickname);
+    // const address = await web3.eth.personal.newAccount(nickname);
+    const address = await web3.eth.accounts.create();
+
     // server에게 erc20 토큰 사용권한 주기
     // const contract = new web3.eth.Contract(erc20abi, process.env.ERC20_CA);
     // const approve = await contract.methods.approve(process.env.SERVER_ADDRESS, 10000);
@@ -41,7 +46,7 @@ exports.join_post = async (req, res, next) => {
     const result = await User.create({
       nickname,
       password: newpassword,
-      address,
+      address: address.address,
       eth_amount: 0,
       token_amount: 0,
     });
@@ -92,51 +97,6 @@ exports.login_post = async (req, res, next) => {
   }
 };
 
-// 유저끼리 erc20 토큰 전송 (미완성)
-exports.transfer_post = async (req, res, next) => {
-  try {
-    // 1. front에서 데이터 받아오기
-    const {to, amount} = req.body;
-    // 2. cookie에서 받은 session id로 db 에서 로그인한 유저의 정보 받아오기
-    // (session에는 로그인 하는 과정의 db 정보만 저장하고 있기 때문에, 로그인 후 글을 써서 토큰이 늘어나 있을 가능성 있으므로
-    // db에서 찾는게 정확하다.)
-    const userInfoBySession = JSON.parse(req.session.user);
-    const user = await User.findOne({
-      where: {id: userInfoBySession.id},
-    });
-
-    // 3-1. 보내는 유저가 db 상에서 충분한 토큰이 있다면 계속 진행
-    if (user.eth_amount >= amount) {
-      // 4. 블록체인 상에서 토큰 전송
-      const web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:8555'));
-
-      const contract = new web3.eth.Contract(erc20abi, process.env.ERC20_CA);
-      console.log(user.address);
-      //
-
-      web3.eth.getAccounts((err, accounts) => {
-        if (err) {
-          console.error(err);
-        } else {
-          console.log(accounts); // 이더리움 노드에 등록된 모든 계정 목록을 출력합니다
-        }
-      });
-
-      const unlockAccount = await web3.eth.personal.unlockAccount(user.address, '1234', 600);
-      console.log('unlock :', unlockAccount);
-      const result = await contract.methods
-        .transferFrom(user.address, to, amount)
-        .send({from: process.env.SERVER_ADDRESS});
-      console.log('성공했습니다');
-    } else {
-      // 3-2. db 상에 토큰 부족하면 프론트에 "잔액이 부족합니다" 전송
-      return res.status(400).send('토큰이 부족합니다!');
-    }
-  } catch (e) {
-    throw Error(e);
-  }
-};
-
 // eth 수도꼭지
 exports.faucet_post = async (req, res, next) => {
   try {
@@ -145,7 +105,9 @@ exports.faucet_post = async (req, res, next) => {
     const {address, id} = JSON.parse(req.session.user);
     console.log(id);
     // 2. server계정에서 user 주소로 ETH 0.1 보내주기
-    const web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:8555'));
+    const web3 = new Web3(
+      new Web3.providers.HttpProvider(`http://127.0.0.1:${process.env.GANACHE_PORT}`),
+    );
     const myNumber = '0.1';
     const myUnit = 'ether';
     const myValue = new BN(await web3.utils.toWei(myNumber, myUnit));
