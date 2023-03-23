@@ -9,6 +9,7 @@ const BN = require('bn.js');
 // 회원가입
 exports.join_post = async (req, res, next) => {
   try {
+    console.log('req', req);
     // 1. front에서 데이터 받아오기
     const {nickname, password} = req.body;
     // 2. db에 같은 nickname 있는지 확인.없으면 계속 진행
