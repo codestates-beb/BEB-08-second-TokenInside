@@ -29,13 +29,12 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="/market" element={<MarketPage />} />
+        <Route path="/market" element={<MintPage />} />
         <Route path="/mypage" element={<PrivateRoute element={<MyPage />} />} />
         <Route path="/write" element={<WritePage />} />
         <Route path="/detail/:id" element={<DetailPage />} />
         <Route path="/join" element={<JoinPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/mint" element={<MintPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
