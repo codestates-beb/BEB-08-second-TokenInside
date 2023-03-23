@@ -41,7 +41,10 @@ function App() {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/market" element={<MarketPage />} />
-        <Route path="/mypage" element={<PrivateRoute element={<MyPage />} />} />
+        <Route
+          path="/mypage"
+          element={<PrivateRoute element={<MyPage />} isLoggedIn={isLoggedIn} />}
+        />
         <Route path="/write" element={<WritePage />} />
         <Route path="/detail/:id" element={<DetailPage />} />
         <Route
