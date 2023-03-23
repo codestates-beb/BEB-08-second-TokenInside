@@ -14,6 +14,7 @@ exports.main_get = async (req, res, next) => {
   }
 };
 
+// 더미 데이터 user 데이터 10개, post 데이터 200개를 생성하는 컨트롤러
 exports.dummy_get = async (req, res, next) => {
   try {
     // 1. User 더미 데이터 10개 만들고 넣기
@@ -40,4 +41,11 @@ exports.dummy_get = async (req, res, next) => {
   } catch (e) {
     Error(e);
   }
+};
+
+exports.logout_get = async (req, res, next) => {
+  req.session.user = null;
+  req.session.loggedIn = false;
+
+  return res.status(200).redirect('/hi');
 };
