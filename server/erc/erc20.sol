@@ -7,4 +7,6 @@ contract GLDToken is ERC20 {
     constructor(uint256 initialSupply) ERC20("ToKenIn", "TKI") {
         _mint(msg.sender, initialSupply);
     }
+
+
 }

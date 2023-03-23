@@ -40,7 +40,7 @@ function App() {
       />
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="/market" element={<MarketPage />} />
+        <Route path="/market" element={<MintPage />} />
         <Route
           path="/mypage"
           element={

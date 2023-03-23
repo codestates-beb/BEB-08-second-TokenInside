@@ -127,10 +127,12 @@ const MintPage = () => {
       const response = await axios.post(
         'http://localhost:5500/nft/minting',
         {name, description, tokenurl},
-        {},
+        {
+          withCredentials: true,
+        },
       );
       console.log('resoponse.data', response.data);
-      // navigate('/');
+      navigate('/');
     } catch (error) {
       console.error(error);
     }
