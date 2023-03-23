@@ -50,10 +50,11 @@ app.use(
     store: new SequelizeStore({
       db: sequelize,
     }),
-    // cookie: {
-    //   secure: true,
-    //   sameSite: 'none',
-    // },
+    cookie: {
+      httpOnly: false,
+      //   secure: true,
+      //   sameSite: 'none',
+    },
   }),
 );
 
