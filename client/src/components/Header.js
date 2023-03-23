@@ -2,6 +2,10 @@ import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCoins, faSearch} from '@fortawesome/free-solid-svg-icons';
+import {useDispatch, useSelector} from 'react-redux';
+import {logout} from '../store';
+import axios from 'axios';
+import {useState} from 'react';
 const Head = styled.div`
   z-index: 5;
   width: 100%;
@@ -77,7 +81,7 @@ const SearchBar = styled.input`
   }
 `;
 
-const WalletBtn = styled.div`
+const Btn = styled.div`
   margin-right: 10px;
   background-color: #87ceeb;
   font-weight: 600;
@@ -89,7 +93,42 @@ const WalletBtn = styled.div`
     cursor: pointer;
   }
 `;
-function Header() {
+function Header({isLoggedIn, setIsLoggedIn, user, setUser, address, setAddress}) {
+  // const isLoggedIn = useSelector(state => state.isLoggedIn);
+  // const user = useSelector(state => state.user);
+  // const address = useSelector(state => state.address);
+
+  // const dispatch = useDispatch();
+  const showState = () => {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      console.log(cookies);
+      if (cookies[i].trim().startsWith('connect.sid=')) {
+        console.log('header get cookie: ', cookies[i].trim().substring(12));
+      } else {
+        console.log('no');
+      }
+    }
+  };
+  async function postFaucet() {
+    axios
+      .post('http://localhost:5500/user/faucet', null, {withCredentials: true})
+      .then(response => {
+        console.log(response.data); // Do something with the response
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+  const handleLogout = () => {
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('user');
+    localStorage.removeItem('address');
+    setIsLoggedIn(localStorage.getItem('isLoggedIn'));
+    setUser(localStorage.getItem('user'));
+    setAddress(localStorage.getItem('address'));
+  };
+
   return (
     <Head className="header">
       <Wrapper>
@@ -104,7 +143,7 @@ function Header() {
             </LogoIcon>
           </Link>
           <Link to="">
-            <Logo>TOKENINSIDE</Logo>
+            <Logo onClick={showState}>TOKENINSIDE</Logo>
           </Link>
 
           <Search>
@@ -116,22 +155,36 @@ function Header() {
             </SearchBox>
           </Search>
           <Nav>
-            <Link to="/marketpage">
+            <Link to="/market">
               <Menu>Market</Menu>
             </Link>
 
-            <Link to="/writepage">
+            <Link to="/write">
               <Menu>Write</Menu>
+            </Link>
+            <Link to="/write">
+              <Menu onClick={() => postFaucet()}>ETH Faucet</Menu>
             </Link>
           </Nav>
         </Column>
-
-        <Column>
-          <WalletBtn onClick={() => {}}>Login</WalletBtn>
-          <WalletBtn onClick={() => {}}>
-            <Link to="/joinpage">회원가입</Link>
-          </WalletBtn>
-        </Column>
+        {isLoggedIn ? (
+          <>
+            {user} {address}
+            <Btn>
+              <Link to="/mypage">마이 페이지</Link>
+            </Btn>
+            <Btn onClick={() => handleLogout()}>로그아웃</Btn>
+          </>
+        ) : (
+          <Column>
+            <Btn>
+              <Link to="/login">Login</Link>
+            </Btn>
+            <Btn>
+              <Link to="/join">회원가입</Link>
+            </Btn>
+          </Column>
+        )}
       </Wrapper>
     </Head>
   );

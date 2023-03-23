@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 import React, {useState} from 'react';
 import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+import {login, logout} from '../store';
 
 const Container = styled.div`
   display: flex;
@@ -33,14 +36,6 @@ const InputLabel = styled.label`
   margin-bottom: 0.5rem;
 `;
 
-// const Input = styled.input`
-//   padding: 0.5rem;
-//   font-size: 1rem;
-//   border: 1px solid gray;
-//   border-radius: 5px;
-//   width: 100%;
-// `;
-
 const Input = styled.input`
   padding: 0.5rem;
   font-size: 1rem;
@@ -63,12 +58,12 @@ const SubmitButton = styled.button`
   cursor: pointer;
 `;
 
-function JoinPage() {
+function LoginPage({isLoggedIn, setIsLoggedIn, user, setUser, address, setAddress}) {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
+    nickname: '',
     password: '',
-    confirmPassword: '',
   });
 
   const [passwordError, setPasswordError] = useState('');
@@ -80,27 +75,6 @@ function JoinPage() {
       ...prevFormData,
       [name]: value,
     }));
-  };
-
-  const handleConfirmPasswordChange = event => {
-    const confirmPassword = event.target.value;
-    const password = event.target.form.password.value;
-    if (password !== confirmPassword) {
-      setPasswordError('Passwords do not match');
-    } else {
-      setPasswordError('');
-    }
-  };
-
-  const handleUsernameChange = event => {
-    const username = event.target.value;
-    if (!/^[A-Za-z0-9]{5,}$/.test(username)) {
-      setUsernameError(
-        'Username must be at least 5 characters long and contain only letters and numbers',
-      );
-    } else {
-      setUsernameError('');
-    }
   };
 
   const handlePasswordChange = event => {
@@ -117,62 +91,62 @@ function JoinPage() {
   const handleSubmit = event => {
     event.preventDefault();
     axios
-      .post('http://localhost:4000/user/join', formData)
+      .post('http://localhost:5500/user/login', formData, {withCredentials: true})
       .then(response => {
         console.log(response.data); // Do something with the response
+        console.log(response.data.data.nickname); // Do something with the response
+        localStorage.setItem('isLoggedIn', true);
+        localStorage.setItem('user', response.data.data.nickname);
+        localStorage.setItem('address', response.data.data.address);
+        setIsLoggedIn(localStorage.getItem('isLoggedIn'));
+        setUser(localStorage.getItem('user'));
+        setAddress(localStorage.getItem('address'));
+        navigate('/');
       })
       .catch(error => {
         console.error(error);
       });
   };
+  // const handleOnClick = e => {
+  //   dispatch(login('Lettie Estrada', 'aaaabbbbcccc111122223333')); // 완료 될때 redirect하도록 변경해야함
+  //   navigate('/');
+  // };
 
   return (
     <FormWrapper>
       <FormContainer onSubmit={handleSubmit}>
         <InputContainer>
-          <InputLabel>닉네임</InputLabel>
+          <InputLabel>ID</InputLabel>
           <Input
             type="text"
-            name="username"
-            placeholder="영문자 숫자를 섞어서 5자 이상이어야 합니다. "
-            value={formData.username}
+            name="nickname"
+            placeholder="아이디를 입력하세요"
+            value={formData.nickname}
             onChange={handleInputChange}
             width="600px"
             required
           />
         </InputContainer>
         <InputContainer>
-          <InputLabel>비밀번호</InputLabel>
+          <InputLabel>Password</InputLabel>
           <Input
             type="password"
             name="password"
-            placeholder="비밀번호를 입력하세요. 영문자,숫자, 특수문자를 섞어서 8자 이상이어야 합니다."
+            placeholder="비밀번호를 입력하세요"
             value={formData.password}
             onChange={handleInputChange}
+            onKeyUp={handlePasswordChange}
             width="600px"
             required
           />
+          {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
         </InputContainer>
-        <InputContainer>
-          <InputLabel>비밀번호 확인</InputLabel>
-          <Input
-            type="password"
-            name="confirmPassword"
-            placeholder="비밀번호를 똑같이 입력하세요."
-            value={formData.confirmPassword}
-            onChange={handleInputChange}
-            onKeyUp={handleConfirmPasswordChange} // 비밀번호 입력 후 일치 여부 확인
-            width="600px"
-            required
-          />
-        </InputContainer>
-        {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
-        <SubmitButton type="submit" disabled={passwordError}>
-          Sign Up
+        <SubmitButton type="submit" disabled={passwordError || usernameError}>
+          Log In
         </SubmitButton>
+        {/* <button onClick={handleOnClick}>디버그 로그인</button> */}
       </FormContainer>
     </FormWrapper>
   );
 }
-
-export default JoinPage;
+export default LoginPage;

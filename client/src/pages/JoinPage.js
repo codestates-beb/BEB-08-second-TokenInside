@@ -1,11 +1,7 @@
 import styled from 'styled-components';
 import React, {useState} from 'react';
 import axios from 'axios';
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
+import {useNavigate} from 'react-router-dom';
 
 const FormWrapper = styled.div`
   display: flex;
@@ -33,14 +29,6 @@ const InputLabel = styled.label`
   margin-bottom: 0.5rem;
 `;
 
-// const Input = styled.input`
-//   padding: 0.5rem;
-//   font-size: 1rem;
-//   border: 1px solid gray;
-//   border-radius: 5px;
-//   width: 100%;
-// `;
-
 const Input = styled.input`
   padding: 0.5rem;
   font-size: 1rem;
@@ -64,8 +52,10 @@ const SubmitButton = styled.button`
 `;
 
 function JoinPage() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
-    username: '',
+    nickname: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -93,10 +83,10 @@ function JoinPage() {
   };
 
   const handleUsernameChange = event => {
-    const username = event.target.value;
-    if (!/^[A-Za-z0-9]{5,}$/.test(username)) {
+    const nickname = event.target.value;
+    if (!/^[A-Za-z0-9]{5,}$/.test(nickname)) {
       setUsernameError(
-        'Username must be at least 5 characters long and contain only letters and numbers',
+        'nickname must be at least 5 characters long and contain only letters and numbers',
       );
     } else {
       setUsernameError('');
@@ -117,45 +107,33 @@ function JoinPage() {
   const handleSubmit = event => {
     event.preventDefault();
     axios
-      .post('http://localhost:4000/user/join', formData)
+      .post('http://localhost:5500/user/join', formData)
       .then(response => {
-        console.log(response.data); // Do something with the response
+        console.log(response.message, response.data); // Do something with the response
+        navigate('/');
       })
       .catch(error => {
         console.error(error);
+        alert('회원가입에 실패하였습니다.', error);
       });
-  };
-
-  const handleConfirmPasswordChange = event => {
-    const confirmPassword = event.target.value;
-    //const password = formData.password;
-    const password = event.target.form.password.value;
-    console.log('password', password);
-    console.log('confirmPassword', confirmPassword);
-    if (password !== confirmPassword) {
-      setPasswordError('Passwords do not match');
-      console.log('if');
-    } else {
-      setPasswordError('');
-      console.log('else');
-    }
   };
 
   return (
     <FormWrapper>
       <FormContainer onSubmit={handleSubmit}>
         <InputContainer>
-          <InputLabel>이름</InputLabel>
+          <InputLabel>ID</InputLabel>
           <Input
             type="text"
-            name="username"
-            value={formData.username}
+            name="nickname"
+            placeholder="아이디을 입력하세요."
+            value={formData.nickname}
             onChange={handleInputChange}
             required
           />
         </InputContainer>
         <InputContainer>
-          <InputLabel>비밀번호</InputLabel>
+          <InputLabel>Password</InputLabel>
           <Input
             type="password"
             name="password"
@@ -164,18 +142,21 @@ function JoinPage() {
             required
           />
         </InputContainer>
-        <InputLabel>비밀번호 확인</InputLabel>
-        <Input
-          type="password"
-          name="confirmPassword"
-          placeholder="비밀번호를 똑같이 입력하세요."
-          value={formData.confirmPassword}
-          onChange={handleInputChange}
-          onKeyUp={handleConfirmPasswordChange} // 비밀번호 입력 후 일치 여부 확인
-          required
-        />
-        {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
-        <SubmitButton type="submit" disabled={passwordError}>
+        <InputContainer>
+          <InputLabel>Confirm Password</InputLabel>
+          <Input
+            type="password"
+            name="confirmPassword"
+            placeholder="비밀번호를 똑같이 입력하세요."
+            value={formData.confirmPassword}
+            onChange={handleInputChange}
+            onKeyUp={handleConfirmPasswordChange} // 비밀번호 입력 후 일치 여부 확인
+            width="600px"
+            required
+          />
+          {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
+        </InputContainer>
+        <SubmitButton type="submit" disabled={passwordError || usernameError}>
           Sign Up
         </SubmitButton>
       </FormContainer>
