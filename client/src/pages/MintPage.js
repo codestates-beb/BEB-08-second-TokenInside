@@ -120,15 +120,21 @@ const MintPage = () => {
 
   const onSubmit = async data => {
     const {name, description} = data;
-    const ipfsurl = await uploadFile(imageFile);
+    const tokenurl = await uploadFile(imageFile);
 
     const formData = new FormData();
     formData.name = data.name;
     formData.description = data.description;
-    formData.ipfsurl = ipfsurl;
+    formData.tokenurl = tokenurl;
 
     try {
-      const response = await axios.post('http://localhost:5500/minting', formData);
+      const response = await axios.post(
+        'http://localhost:5500/nft/minting',
+        {name, description, tokenurl},
+        {
+          withCredentials: true,
+        },
+      );
       console.log('resoponse.data', response.data);
       navigate('/');
     } catch (error) {
