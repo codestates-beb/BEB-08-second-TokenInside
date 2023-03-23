@@ -75,15 +75,40 @@ const NftOwner = styled.div`
   background-color: white;
 `;
 const MyInfo = styled.div``;
-
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+`;
+const Input = styled.input`
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: white;
+  border: 1px;
+`;
+const Textarea = styled.textarea`
+  padding: 10px;
+  margin-bottom: 20px;
+  height: 200px;
+`;
+const Button = styled.button`
+  padding: 10px;
+  background-color: blue;
+  color: white;
+  border: none;
+  cursor: pointer;
+`;
 function MyPage({user, address}) {
   const [myToken, setMyToken] = useState(0);
+  const [amount, setAmount] = useState('');
+  const [content, setContent] = useState('');
   /// 탭 관련
   useEffect(() => {
     axios
       .get('http://localhost:5500/user/mypage', {withCredentials: true})
       .then(response => {
         console.log('myToken amount: ', response.data.data.user.token_amount);
+        setMyToken(response.data.data.user.token_amount);
       })
       .catch(error => {
         console.error(error);
@@ -93,6 +118,13 @@ function MyPage({user, address}) {
   const changeTab = num => {
     setTab(num);
     // setFilteredLists(lists.slice(num * 16, (num + 1) * 16));
+  };
+  const handleSubmit = async e => {
+    e.preventDefault();
+    console.log('전송 시작');
+    setTimeout(() => {
+      alert(`${amount} 전송에 선공하였습니다!`);
+    }, 2000);
   };
   return (
     <>
@@ -115,14 +147,29 @@ function MyPage({user, address}) {
             </ColLists>
           )}
           {tab === 1 && <div>내가 쓴 글</div>}
-          {tab === 2 && <div>입출금</div>}
+          {tab === 2 && (
+            <>
+              <div>토큰 입출금</div>
+              <div>보유 금액 {myToken}</div>
+              <Form onSubmit={handleSubmit}>
+                <Input
+                  type="text"
+                  placeholder="보내실 금액"
+                  value={amount}
+                  onChange={e => setAmount(e.target.value)}
+                />
+
+                <Button type="submit">전송</Button>
+              </Form>
+            </>
+          )}
         </TabBox>
         {/* <Col></Col> */}
         <MyInfo>
           나의 정보
           <div>{user}</div>
           <div>{address}</div>
-          <div>나의 토큰: {}</div>
+          <div>나의 토큰: {myToken}</div>
         </MyInfo>
       </Container>
     </>
