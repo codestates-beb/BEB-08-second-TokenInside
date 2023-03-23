@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "12345678",
+    "password": "1234",
     "database": "test_tc",
     "host": "127.0.0.1",
     "dialect": "mysql"

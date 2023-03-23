@@ -43,7 +43,11 @@ function WritePage() {
     e.preventDefault();
     try {
       console.log('title, content', title, content);
-      await axios.post('http://localhost:5500/post/register', {title, content});
+      await axios.post(
+        'http://localhost:5500/post/register',
+        {title, content},
+        {withCredentials: true},
+      );
       alert('게시물이 작성되었습니다.');
       setTitle('');
       setContent('');
