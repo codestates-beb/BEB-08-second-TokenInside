@@ -156,10 +156,12 @@ function MyPage({user, address}) {
               <dic>내가 쓴 글</dic>
               {posts.map(item => (
                 <Link to={`/detail/${item.id}`}>
-                  {item.id}
-                  {item.created_at}
-                  {item.title}
-                  {item.content}
+                  <div>
+                    {item.id}
+                    {item.created_at}
+                    {item.title}
+                    {item.content}
+                  </div>
                 </Link>
               ))}
             </div>
