@@ -40,18 +40,15 @@ function App() {
       />
       <Routes>
         <Route path="/" element={<MainPage />} />
-<<<<<<< HEAD
-        <Route path="/market" element={<MintPage />} />
-        <Route path="/mypage" element={<PrivateRoute element={<MyPage />} />} />
-        <Route path="/write" element={<WritePage />} />
-        <Route path="/detail/:id" element={<DetailPage />} />
-        <Route path="/join" element={<JoinPage />} />
-        <Route path="/login" element={<LoginPage />} />
-=======
         <Route path="/market" element={<MarketPage />} />
         <Route
           path="/mypage"
-          element={<PrivateRoute element={<MyPage />} isLoggedIn={isLoggedIn} />}
+          element={
+            <PrivateRoute
+              element={<MyPage user={user} address={address} />}
+              isLoggedIn={isLoggedIn}
+            />
+          }
         />
         <Route path="/write" element={<WritePage />} />
         <Route path="/detail/:id" element={<DetailPage />} />
@@ -82,7 +79,6 @@ function App() {
           }
         />
         <Route path="/mint" element={<MintPage />} />
->>>>>>> upstream/dev
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

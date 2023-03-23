@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
@@ -74,12 +74,21 @@ const NftOwner = styled.div`
   text-align: center;
   background-color: white;
 `;
+const MyInfo = styled.div``;
 
-function MyPage() {
+function MyPage({user, address}) {
+  const [myToken, setMyToken] = useState(0);
   /// 탭 관련
-
-  const [] = useState();
-
+  useEffect(() => {
+    axios
+      .get('http://localhost:5500/user/mypage', {withCredentials: true})
+      .then(response => {
+        console.log('myToken amount: ', response.data.data.user.token_amount);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
   const [tab, setTab] = useState(0);
   const changeTab = num => {
     setTab(num);
@@ -109,7 +118,12 @@ function MyPage() {
           {tab === 2 && <div>입출금</div>}
         </TabBox>
         {/* <Col></Col> */}
-        <div>나의 정보</div>
+        <MyInfo>
+          나의 정보
+          <div>{user}</div>
+          <div>{address}</div>
+          <div>나의 토큰: {}</div>
+        </MyInfo>
       </Container>
     </>
   );
