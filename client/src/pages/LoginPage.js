@@ -58,7 +58,7 @@ const SubmitButton = styled.button`
   cursor: pointer;
 `;
 
-function LoginPage() {
+function LoginPage({isLoggedIn, setIsLoggedIn, user, setUser, address, setAddress}) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
@@ -95,16 +95,22 @@ function LoginPage() {
       .then(response => {
         console.log(response.data); // Do something with the response
         console.log(response.data.data.nickname); // Do something with the response
+        localStorage.setItem('isLoggedIn', true);
+        localStorage.setItem('user', response.data.data.nickname);
+        localStorage.setItem('address', response.data.data.address);
+        setIsLoggedIn(localStorage.getItem('isLoggedIn'));
+        setUser(localStorage.getItem('user'));
+        setAddress(localStorage.getItem('address'));
         navigate('/');
       })
       .catch(error => {
         console.error(error);
       });
   };
-  const handleOnClick = e => {
-    dispatch(login('Lettie Estrada', 'aaaabbbbcccc111122223333')); // 완료 될때 redirect하도록 변경해야함
-    navigate('/');
-  };
+  // const handleOnClick = e => {
+  //   dispatch(login('Lettie Estrada', 'aaaabbbbcccc111122223333')); // 완료 될때 redirect하도록 변경해야함
+  //   navigate('/');
+  // };
 
   return (
     <FormWrapper>
@@ -138,7 +144,7 @@ function LoginPage() {
         <SubmitButton type="submit" disabled={passwordError || usernameError}>
           Log In
         </SubmitButton>
-        <button onClick={handleOnClick}>디버그 로그인</button>
+        {/* <button onClick={handleOnClick}>디버그 로그인</button> */}
       </FormContainer>
     </FormWrapper>
   );
