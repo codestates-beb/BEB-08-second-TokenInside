@@ -25,7 +25,7 @@ exports.join_post = async (req, res, next) => {
     }
     // 2-2. 없으면 계속 진행
     // 3. web3 사용해 가나슈 네트워크에 접속 후, 사용자의 비번을 이용한 지갑 생성
-    const web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:7545')); // 본인 가나슈 주소
+    const web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:8555')); // 본인 가나슈 주소
     //
     const address = await web3.eth.personal.newAccount(nickname);
     // server에게 erc20 토큰 사용권한 주기
@@ -74,7 +74,9 @@ exports.login_post = async (req, res, next) => {
         // 쿠키 내에 session id가 들어있고, 이 session id를 db의 session 테이블에 집어넣음
         req.session.loggedIn = true;
         req.session.user = JSON.stringify(nicknameMatch.dataValues);
+
         console.log(req.session);
+        // res.cookie('session', 'session-id', { httpOnly: true });
         return res.status(200).send({message: '로그인 성공 했습니다!', data: nicknameMatch});
       } else {
         // 비밀번호만 일치하지 않는다면, "비밀번호를 확인하세요" 프론트에 보내줌
@@ -139,8 +141,9 @@ exports.transfer_post = async (req, res, next) => {
 exports.faucet_post = async (req, res, next) => {
   try {
     // 1. session에서 user address, id 받아오기
+    console.log('REQ', req.session);
     const {address, id} = JSON.parse(req.session.user);
-    console.log(address);
+    console.log(id);
     // 2. server계정에서 user 주소로 ETH 0.1 보내주기
     const web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:8555'));
     const myNumber = '0.1';

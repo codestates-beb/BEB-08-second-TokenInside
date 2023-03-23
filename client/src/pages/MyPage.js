@@ -77,6 +77,9 @@ const NftOwner = styled.div`
 
 function MyPage() {
   /// 탭 관련
+
+  const [] = useState();
+
   const [tab, setTab] = useState(0);
   const changeTab = num => {
     setTab(num);

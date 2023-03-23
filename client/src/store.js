@@ -1,8 +1,18 @@
 import {createStore} from 'redux';
+const cookies = document.cookie.split(';');
+let userCookie;
+for (let i = 0; i < cookies.length; i++) {
+  if (cookies[i].includes('connect.sid=')) {
+    console.log('header get cookie: ', cookies[i].trim().substring(12));
+    userCookie = cookies[i].trim().substring(12);
+  } else {
+    console.log('no');
+  }
+}
 
 const initialState = {
   isLoggedIn: false,
-  user: null,
+  user: userCookie,
   address: null,
 };
 

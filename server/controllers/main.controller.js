@@ -36,6 +36,7 @@ exports.dummy_get = async (req, res, next) => {
         content: item.content,
       });
     });
+    res.send({message: '성공'});
   } catch (e) {
     Error(e);
   }

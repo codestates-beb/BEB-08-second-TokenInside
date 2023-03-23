@@ -114,6 +114,7 @@ function JoinPage() {
       })
       .catch(error => {
         console.error(error);
+        alert('회원가입에 실패하였습니다.', error);
       });
   };
 
