@@ -35,13 +35,14 @@ exports.detail_get = async (req, res, next) => {
 exports.register_post = async (req, res, next) => {
   try {
     //1. 프론트에서 title , content 받아오기
-    console.log('req', req);
+    console.log(' req.body', req);
 
     const title = req.body.title;
     const content = req.body.content;
     console.log('title, content :', title, content);
 
     //2. 세션을 이용해서 글쓴이 , 유저 알아내기
+    console.log('req.session.user', req.session.user, JSON.parse(req.session.user));
     const {id} = JSON.parse(req.session.user);
     const user = await User.findOne({
       where: {
@@ -57,7 +58,9 @@ exports.register_post = async (req, res, next) => {
     });
     // 4. 잘 저장 되었다면 블록체인 네트워크를 연결하고, 보상 토큰 1개 주기
     if (result) {
-      const web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:7545'));
+      const web3 = new Web3(
+        new Web3.providers.HttpProvider(`http://127.0.0.1:${process.env.GANACHE_PORT}`),
+      );
 
       const contract = new web3.eth.Contract(erc20abi, process.env.ERC20_CA);
       const giveToken = await contract.methods
