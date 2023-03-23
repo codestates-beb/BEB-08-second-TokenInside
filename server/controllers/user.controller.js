@@ -12,7 +12,7 @@ exports.join_post = async (req, res, next) => {
     console.log('req', req);
     // 1. front에서 데이터 받아오기
     const {nickname, password} = req.body;
-    console.log("nick",nickname);
+    console.log('nick', nickname);
     // 2. db에 같은 nickname 있는지 확인.없으면 계속 진행
     const exists = await User.findOne({
       attributes: ['nickname'],
@@ -26,7 +26,9 @@ exports.join_post = async (req, res, next) => {
     }
     // 2-2. 없으면 계속 진행
     // 3. web3 사용해 가나슈 네트워크에 접속 후, 사용자의 비번을 이용한 지갑 생성
-    const web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:8555')); // 본인 가나슈 주소
+    const web3 = new Web3(
+      new Web3.providers.HttpProvider(`http://127.0.0.1:${process.env.GANACHE_PORT}`),
+    ); // 본인 가나슈 주소
     //
     const address = await web3.eth.personal.newAccount(nickname);
     // server에게 erc20 토큰 사용권한 주기
@@ -102,7 +104,7 @@ exports.transfer_post = async (req, res, next) => {
     // (session에는 로그인 하는 과정의 db 정보만 저장하고 있기 때문에, 로그인 후 글을 써서 토큰이 늘어나 있을 가능성 있으므로
     // db에서 찾는게 정확하다.)
     const userInfoBySession = JSON.parse(req.session.user);
-    
+
     const user = await User.findOne({
       where: {id: userInfoBySession.id},
     });
@@ -110,7 +112,9 @@ exports.transfer_post = async (req, res, next) => {
     // 3-1. 보내는 유저가 db 상에서 충분한 토큰이 있다면 계속 진행
     if (user.eth_amount >= amount) {
       // 4. 블록체인 상에서 토큰 전송
-      const web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:8555'));
+      const web3 = new Web3(
+        new Web3.providers.HttpProvider(`http://127.0.0.1:${process.env.GANACHE_PORT}`),
+      );
 
       const contract = new web3.eth.Contract(erc20abi, process.env.ERC20_CA);
       console.log(user.address);
@@ -126,9 +130,7 @@ exports.transfer_post = async (req, res, next) => {
 
       const unlockAccount = await web3.eth.personal.unlockAccount(user.address, '1234', 600);
       console.log('unlock :', unlockAccount);
-      const result = await contract.methods
-        .transfer(to, amount)
-        .send({from: user.address});
+      const result = await contract.methods.transfer(to, amount).send({from: user.address});
       console.log('성공했습니다');
     } else {
       // 3-2. db 상에 토큰 부족하면 프론트에 "잔액이 부족합니다" 전송
@@ -147,7 +149,9 @@ exports.faucet_post = async (req, res, next) => {
     const {address, id} = JSON.parse(req.session.user);
     console.log(id);
     // 2. server계정에서 user 주소로 ETH 0.1 보내주기
-    const web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:8555'));
+    const web3 = new Web3(
+      new Web3.providers.HttpProvider(`http://127.0.0.1:${process.env.GANACHE_PORT}`),
+    );
     const myNumber = '0.1';
     const myUnit = 'ether';
     const myValue = new BN(await web3.utils.toWei(myNumber, myUnit));
