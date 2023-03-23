@@ -35,6 +35,7 @@ exports.detail_get = async (req, res, next) => {
 exports.register_post = async (req, res, next) => {
   try {
     //1. 프론트에서 title , content 받아오기
+    console.log('req', req);
 
     const title = req.body.title;
     const content = req.body.content;
@@ -56,7 +57,7 @@ exports.register_post = async (req, res, next) => {
     });
     // 4. 잘 저장 되었다면 블록체인 네트워크를 연결하고, 보상 토큰 1개 주기
     if (result) {
-      const web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:8555'));
+      const web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:7545'));
 
       const contract = new web3.eth.Contract(erc20abi, process.env.ERC20_CA);
       const giveToken = await contract.methods
@@ -68,7 +69,7 @@ exports.register_post = async (req, res, next) => {
       }
     }
     //6. 프론트에 성공했다고 알려주기
-    return res.status(201).send({message: '글 등록 성공!', data: result});
+    return res.status(200).send({message: '글 등록 성공!', data: result});
   } catch (error) {
     res.status(500).json({
       message: 'Creating a post failed!',

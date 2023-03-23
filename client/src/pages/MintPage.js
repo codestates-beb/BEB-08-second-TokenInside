@@ -122,11 +122,7 @@ const MintPage = () => {
     const {name, description} = data;
     const tokenurl = await uploadFile(imageFile);
 
-    const formData = new FormData();
-    formData.name = data.name;
-    formData.description = data.description;
-    formData.tokenurl = tokenurl;
-
+    console.log('data', data);
     try {
       const response = await axios.post(
         'http://localhost:5500/nft/minting',
@@ -136,7 +132,7 @@ const MintPage = () => {
         },
       );
       console.log('resoponse.data', response.data);
-      navigate('/');
+      // navigate('/');
     } catch (error) {
       console.error(error);
     }

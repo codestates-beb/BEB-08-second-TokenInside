@@ -5,6 +5,7 @@ import {faCoins, faSearch} from '@fortawesome/free-solid-svg-icons';
 import {useDispatch, useSelector} from 'react-redux';
 import {logout} from '../store';
 import axios from 'axios';
+import {useState} from 'react';
 const Head = styled.div`
   z-index: 5;
   width: 100%;
@@ -92,13 +93,18 @@ const Btn = styled.div`
     cursor: pointer;
   }
 `;
-function Header() {
-  const isLoggedIn = useSelector(state => state.isLoggedIn);
-  const user = useSelector(state => state.user);
-  const address = useSelector(state => state.address);
-  const dispatch = useDispatch();
+const Info = styled.div`
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+`;
+function Header({isLoggedIn, setIsLoggedIn, user, setUser, address, setAddress}) {
+  // const isLoggedIn = useSelector(state => state.isLoggedIn);
+  // const user = useSelector(state => state.user);
+  // const address = useSelector(state => state.address);
+
+  // const dispatch = useDispatch();
   const showState = () => {
-    console.log('header user: ', user);
     const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++) {
       console.log(cookies);
@@ -119,6 +125,14 @@ function Header() {
         console.error(error);
       });
   }
+  const handleLogout = () => {
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('user');
+    localStorage.removeItem('address');
+    setIsLoggedIn(localStorage.getItem('isLoggedIn'));
+    setUser(localStorage.getItem('user'));
+    setAddress(localStorage.getItem('address'));
+  };
 
   return (
     <Head className="header">
@@ -160,11 +174,14 @@ function Header() {
         </Column>
         {isLoggedIn ? (
           <>
-            {user} {address}
+            <Info>
+              {user} {address}
+            </Info>
+
             <Btn>
               <Link to="/mypage">마이 페이지</Link>
             </Btn>
-            <Btn onClick={() => dispatch(logout())}>로그아웃</Btn>
+            <Btn onClick={() => handleLogout()}>로그아웃</Btn>
           </>
         ) : (
           <Column>
