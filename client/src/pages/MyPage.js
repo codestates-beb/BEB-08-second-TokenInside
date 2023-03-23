@@ -103,6 +103,7 @@ function MyPage({user, address}) {
   const [posts, setPosts] = useState([]);
   const [amount, setAmount] = useState('');
   const [content, setContent] = useState('');
+  const [nftInfo, setNftInfo] = useState('');
   /// 탭 관련
   useEffect(() => {
     axios
@@ -125,10 +126,17 @@ function MyPage({user, address}) {
   };
   const handleSubmit = async e => {
     e.preventDefault();
-    console.log('전송 시작');
-    setTimeout(() => {
-      alert(`${amount} 전송에 선공하였습니다!`);
-    }, 2000);
+    if (amount === '0') {
+      alert('금액을 입력해 주세요.');
+    } else if (myToken >= amount) {
+      console.log('amount: ', amount);
+      console.log('amount t: ', typeof amount);
+      setTimeout(() => {
+        alert(`${amount} 전송에 선공하였습니다. 🎉`);
+      }, 1000);
+    } else {
+      alert('금액이 부족합니다.');
+    }
   };
 
   return (
@@ -142,13 +150,13 @@ function MyPage({user, address}) {
           </Tabs>
           {tab === 0 && (
             <ColLists>
-              {nftInfo.map(i => (
+              {/* {nftInfo.map(i => (
                 <NftBox>
                   <NftImg src={i.tokenurl} />
                   <NftOwner>{i.user_id}</NftOwner>
                   <NftName>{i.name}</NftName>
                 </NftBox>
-              ))}
+              ))} */}
             </ColLists>
           )}
           {tab === 1 && (
