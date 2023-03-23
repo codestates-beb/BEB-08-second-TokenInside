@@ -98,7 +98,16 @@ function Header() {
   const address = useSelector(state => state.address);
   const dispatch = useDispatch();
   const showState = () => {
-    console.log('header isLoggedIn: ', isLoggedIn);
+    console.log('header user: ', user);
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      console.log(cookies);
+      if (cookies[i].trim().startsWith('connect.sid=')) {
+        console.log('header get cookie: ', cookies[i].trim().substring(12));
+      } else {
+        console.log('no');
+      }
+    }
   };
   async function postFaucet() {
     axios
