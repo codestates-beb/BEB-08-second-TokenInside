@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import React, {useState} from 'react';
 import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
 
 const FormWrapper = styled.div`
   display: flex;
@@ -51,6 +52,8 @@ const SubmitButton = styled.button`
 `;
 
 function JoinPage() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     nickname: '',
     email: '',
@@ -107,9 +110,11 @@ function JoinPage() {
       .post('http://localhost:5500/user/join', formData)
       .then(response => {
         console.log(response.message, response.data); // Do something with the response
+        navigate('/');
       })
       .catch(error => {
         console.error(error);
+        alert('회원가입에 실패하였습니다.', error);
       });
   };
 

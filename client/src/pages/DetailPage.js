@@ -73,19 +73,16 @@ const Button = styled.button`
 
 function DetailPage() {
   const navigate = useNavigate();
-  const [post, setPost] = useState({});
+  const [data, setData] = useState({post: {}});
   const {id} = useParams();
 
   useEffect(() => {
-    //백엔드 api가 조회될 때
-    // axios.get(`https://jsonplaceholder.typicode.com/comments/${id}`).then(response => {
-    //   setPost(response.data);
-    // });
-    //dummy data조회 용
-    // setPost(data);
-  }, [id]);
-  // console.log('id', id);
-  // console.log('data', data);
+    axios.get(`http://localhost:5500/post/detail/${id}`).then(response => {
+      setData(response.data);
+    });
+  }, []);
+
+  // console.log('data', data.post);
   return (
     <Container>
       <Title>게시물 조회 페이지</Title>
@@ -93,18 +90,18 @@ function DetailPage() {
         <PostHeader>
           <PostNumber>번호 : {id}</PostNumber>
         </PostHeader>
-        {/* <PostHeader>
-          <PostAuthor>작성자 : {data[id].user_id}</PostAuthor>
+        <PostHeader>
+          <PostAuthor>작성자 : {data.post.user_id}</PostAuthor>
         </PostHeader>
         <PostHeader>
-          <PostDate>생성일 : {data[id].created_at}</PostDate>
+          <PostDate>생성일 : {data.post.created_at}</PostDate>
         </PostHeader>
         <PostHeader>
-          <PostNumber>조회수 : {id}</PostNumber>
+          <PostNumber>타이틀 : {data.post.title}</PostNumber>
         </PostHeader>
         <PostHeader>
-          <PostContent>본문 : {data[id].content}</PostContent>
-        </PostHeader> */}
+          <PostContent>본문 : {data.post.content}</PostContent>
+        </PostHeader>
       </PostContainer>
       <Button onClick={() => navigate('/')}>게시글 목록</Button>
     </Container>
