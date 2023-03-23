@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {login, logout} from '../store';
 import {Sidebar, Menu, MenuItem, SubMenu} from 'react-pro-sidebar';
@@ -100,6 +100,7 @@ const Button = styled.button`
 `;
 function MyPage({user, address}) {
   const [myToken, setMyToken] = useState(0);
+  const [posts, setPosts] = useState([]);
   const [amount, setAmount] = useState('');
   const [content, setContent] = useState('');
   /// 탭 관련
@@ -107,8 +108,11 @@ function MyPage({user, address}) {
     axios
       .get('http://localhost:5500/user/mypage', {withCredentials: true})
       .then(response => {
+        console.log('data: ', response.data);
         console.log('myToken amount: ', response.data.data.user.token_amount);
         setMyToken(response.data.data.user.token_amount);
+        console.log('posts: ', response.data.data.posts);
+        setPosts([...response.data.data.posts]);
       })
       .catch(error => {
         console.error(error);
@@ -126,6 +130,7 @@ function MyPage({user, address}) {
       alert(`${amount} 전송에 선공하였습니다!`);
     }, 2000);
   };
+
   return (
     <>
       <Container>
@@ -146,7 +151,19 @@ function MyPage({user, address}) {
               ))}
             </ColLists>
           )}
-          {tab === 1 && <div>내가 쓴 글</div>}
+          {tab === 1 && (
+            <div>
+              <dic>내가 쓴 글</dic>
+              {posts.map(item => (
+                <Link to={`/detail/${item.id}`}>
+                  {item.id}
+                  {item.created_at}
+                  {item.title}
+                  {item.content}
+                </Link>
+              ))}
+            </div>
+          )}
           {tab === 2 && (
             <>
               <div>토큰 입출금</div>

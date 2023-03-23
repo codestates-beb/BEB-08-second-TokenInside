@@ -93,6 +93,11 @@ const Btn = styled.div`
     cursor: pointer;
   }
 `;
+const Info = styled.div`
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+`;
 function Header({isLoggedIn, setIsLoggedIn, user, setUser, address, setAddress}) {
   // const isLoggedIn = useSelector(state => state.isLoggedIn);
   // const user = useSelector(state => state.user);
@@ -169,7 +174,10 @@ function Header({isLoggedIn, setIsLoggedIn, user, setUser, address, setAddress})
         </Column>
         {isLoggedIn ? (
           <>
-            {user} {address}
+            <Info>
+              {user} {address}
+            </Info>
+
             <Btn>
               <Link to="/mypage">마이 페이지</Link>
             </Btn>
