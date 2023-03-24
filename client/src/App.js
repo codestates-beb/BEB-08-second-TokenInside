@@ -24,6 +24,7 @@ import Footer from './components/Footer';
 import {useState} from 'react';
 
 import './App.css';
+import CssTest from './pages/CssTest';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn'));
@@ -87,6 +88,7 @@ function App() {
           }
         />
         <Route path="/mint" element={<MintPage />} />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

@@ -47,6 +47,9 @@ const PostDate = styled.span`
   font-size: 16px;
   color: #666;
   font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 14em;
 `;
 
 const PostTitle = styled.h2`

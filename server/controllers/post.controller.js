@@ -35,7 +35,6 @@ exports.detail_get = async (req, res, next) => {
 exports.register_post = async (req, res, next) => {
   try {
     //1. 프론트에서 title , content 받아오기
-    console.log(' req.body', req);
 
     const title = req.body.title;
     const content = req.body.content;
