@@ -8,7 +8,7 @@ const Container = styled.div`
 `;
 
 function Footer() {
-  return <Container>Footer</Container>;
+  return <Container></Container>;
 }
 
 export default Footer;
