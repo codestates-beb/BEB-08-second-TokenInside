@@ -69,6 +69,10 @@ const Nav = styled.nav``;
 const Menu = styled(Icon)`
   font-size: 15px;
   font-weight: 600;
+
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const SearchBar = styled.input`
@@ -93,6 +97,11 @@ const Btn = styled.div`
     cursor: pointer;
   }
 `;
+const Info = styled.div`
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+`;
 function Header({isLoggedIn, setIsLoggedIn, user, setUser, address, setAddress}) {
   // const isLoggedIn = useSelector(state => state.isLoggedIn);
   // const user = useSelector(state => state.user);
@@ -115,6 +124,7 @@ function Header({isLoggedIn, setIsLoggedIn, user, setUser, address, setAddress})
       .post('http://localhost:5500/user/faucet', null, {withCredentials: true})
       .then(response => {
         console.log(response.data); // Do something with the response
+        alert(`ETH 받기 성공 ! 보유 ETH: ${response.data.data}`);
       })
       .catch(error => {
         console.error(error);
@@ -127,6 +137,16 @@ function Header({isLoggedIn, setIsLoggedIn, user, setUser, address, setAddress})
     setIsLoggedIn(localStorage.getItem('isLoggedIn'));
     setUser(localStorage.getItem('user'));
     setAddress(localStorage.getItem('address'));
+
+    // DB의 세션에서 user 정보 삭제
+    axios
+      .get('http://localhost:5500/logout', {withCredentials: true})
+      .then(res => {
+        console.log(res);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   return (
@@ -155,21 +175,23 @@ function Header({isLoggedIn, setIsLoggedIn, user, setUser, address, setAddress})
             </SearchBox>
           </Search>
           <Nav>
-            <Link to="/market">
-              <Menu>Market</Menu>
+            <Link to="/mint">
+              <Menu>Mint NFT</Menu>
             </Link>
 
             <Link to="/write">
               <Menu>Write</Menu>
             </Link>
-            <Link to="/write">
-              <Menu onClick={() => postFaucet()}>ETH Faucet</Menu>
-            </Link>
+
+            <Menu onClick={() => postFaucet()}>ETH Faucet</Menu>
           </Nav>
         </Column>
         {isLoggedIn ? (
           <>
-            {user} {address}
+            <Info>
+              {user} {address}
+            </Info>
+
             <Btn>
               <Link to="/mypage">마이 페이지</Link>
             </Btn>

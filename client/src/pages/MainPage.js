@@ -104,9 +104,9 @@ function MainPage() {
         endMessage={<p></p>}
       >
         {post &&
-          post.map((item, index) => {
+          post.map(item => {
             return (
-              <Post key={index} onClick={() => handleClick(item.id)}>
+              <Post key={item.id} onClick={() => handleClick(item.id)}>
                 #{item.id} {item.created_at}
                 <div>작성자: {item.user_id}</div>
                 <div>제목: {item.title}</div>

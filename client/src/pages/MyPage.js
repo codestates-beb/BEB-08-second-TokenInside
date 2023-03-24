@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {login, logout} from '../store';
 import {Sidebar, Menu, MenuItem, SubMenu} from 'react-pro-sidebar';
@@ -74,26 +74,63 @@ const NftOwner = styled.div`
   text-align: center;
   background-color: white;
 `;
-
-function MyPage() {
+const MyInfo = styled.div``;
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+`;
+const Input = styled.input`
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: white;
+  border: 1px;
+`;
+const Textarea = styled.textarea`
+  padding: 10px;
+  margin-bottom: 20px;
+  height: 200px;
+`;
+const Button = styled.button`
+  padding: 10px;
+  background-color: blue;
+  color: white;
+  border: none;
+  cursor: pointer;
+`;
+function MyPage({user, address}) {
+  const [myToken, setMyToken] = useState(0);
+  const [posts, setPosts] = useState([]);
+  const [amount, setAmount] = useState('');
+  const [content, setContent] = useState('');
   /// 탭 관련
-
-  const [] = useState();
-  const [nftInfo,setnftInfo] = useState("");
-
-  useEffect(()=>{
-    axios.get('http://localhost:5500/user/mypage',{withCredentials:true}).then((response)=>{
-    console.log(response.data.data.nfts);
-    setnftInfo(response.data.data.nfts);
-  })
-  },[]);
-  
-
+  useEffect(() => {
+    axios
+      .get('http://localhost:5500/user/mypage', {withCredentials: true})
+      .then(response => {
+        console.log('data: ', response.data);
+        console.log('myToken amount: ', response.data.data.user.token_amount);
+        setMyToken(response.data.data.user.token_amount);
+        console.log('posts: ', response.data.data.posts);
+        setPosts([...response.data.data.posts]);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
   const [tab, setTab] = useState(0);
   const changeTab = num => {
     setTab(num);
     // setFilteredLists(lists.slice(num * 16, (num + 1) * 16));
   };
+  const handleSubmit = async e => {
+    e.preventDefault();
+    console.log('전송 시작');
+    setTimeout(() => {
+      alert(`${amount} 전송에 선공하였습니다!`);
+    }, 2000);
+  };
+
   return (
     <>
       <Container>
@@ -108,17 +145,49 @@ function MyPage() {
               {nftInfo.map(i => (
                 <NftBox>
                   <NftImg src={i.tokenurl} />
-                  <NftOwner>{i.description}</NftOwner>
+                  <NftOwner>{i.user_id}</NftOwner>
                   <NftName>{i.name}</NftName>
                 </NftBox>
               ))}
             </ColLists>
           )}
-          {tab === 1 && <div>내가 쓴 글</div>}
-          {tab === 2 && <div>입출금</div>}
+          {tab === 1 && (
+            <div>
+              <dic>내가 쓴 글</dic>
+              {posts.map(item => (
+                <Link to={`/detail/${item.id}`}>
+                  {item.id}
+                  {item.created_at}
+                  {item.title}
+                  {item.content}
+                </Link>
+              ))}
+            </div>
+          )}
+          {tab === 2 && (
+            <>
+              <div>토큰 입출금</div>
+              <div>보유 금액 {myToken}</div>
+              <Form onSubmit={handleSubmit}>
+                <Input
+                  type="text"
+                  placeholder="보내실 금액"
+                  value={amount}
+                  onChange={e => setAmount(e.target.value)}
+                />
+
+                <Button type="submit">전송</Button>
+              </Form>
+            </>
+          )}
         </TabBox>
         {/* <Col></Col> */}
-        <div>나의 정보</div>
+        <MyInfo>
+          나의 정보
+          <div>{user}</div>
+          <div>{address}</div>
+          <div>나의 토큰: {myToken}</div>
+        </MyInfo>
       </Container>
     </>
   );
