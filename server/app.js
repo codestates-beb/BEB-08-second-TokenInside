@@ -50,6 +50,7 @@ app.use(
     store: new SequelizeStore({
       db: sequelize,
     }),
+    rolling: false,
     cookie: {
       httpOnly: false,
       //   secure: true,
