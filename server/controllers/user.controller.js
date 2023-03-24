@@ -26,7 +26,7 @@ exports.join_post = async (req, res, next) => {
     }
     // 2-2. 없으면 계속 진행
     // 3. web3 사용해 가나슈 네트워크에 접속 후, 사용자의 비번을 이용한 지갑 생성
-    const web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:8555')); // 본인 가나슈 주소
+    const web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:7545')); // 본인 가나슈 주소
     //
     const address = await web3.eth.personal.newAccount(nickname);
     // server에게 erc20 토큰 사용권한 주기
@@ -110,7 +110,7 @@ exports.transfer_post = async (req, res, next) => {
     // 3-1. 보내는 유저가 db 상에서 충분한 토큰이 있다면 계속 진행
     if (user.eth_amount >= amount) {
       // 4. 블록체인 상에서 토큰 전송
-      const web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:8555'));
+      const web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:7545'));
 
       const contract = new web3.eth.Contract(erc20abi, process.env.ERC20_CA);
       console.log(user.address);

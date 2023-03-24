@@ -19,7 +19,7 @@ exports.minting_post = async (req, res, next) => {
     .send({from:process.env.SERVER_ADDRESS,gas:100000});
     //setToken이 무사히 작동했으면 NFT를 발급합니다.
     if(setToken_In){
-      const tokenNumber = await erc721Contract.methods.mintNFT(userInfoBySession.address,tokenurl,'hi2','예외적으로')
+      const tokenNumber = await erc721Contract.methods.mintNFT(userInfoBySession.address,tokenurl,name,description)
       .send({from:process.env.SERVER_ADDRESS,gas: '5000000'})
       .on('receipt', function(receipt){console.log('receipt')});
       //NFT가 무사히 발행되었다면 서버 계정에 NFT발급 수수료 만큼 erc20토큰을 전송합니다.

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
@@ -79,6 +79,15 @@ function MyPage() {
   /// 탭 관련
 
   const [] = useState();
+  const [nftInfo,setnftInfo] = useState("");
+
+  useEffect(()=>{
+    axios.get('http://localhost:5500/user/mypage',{withCredentials:true}).then((response)=>{
+    console.log(response.data.data.nfts);
+    setnftInfo(response.data.data.nfts);
+  })
+  },[]);
+  
 
   const [tab, setTab] = useState(0);
   const changeTab = num => {
@@ -96,10 +105,10 @@ function MyPage() {
           </Tabs>
           {tab === 0 && (
             <ColLists>
-              {data.map(i => (
+              {nftInfo.map(i => (
                 <NftBox>
-                  <NftImg src={i.image_url} />
-                  <NftOwner>{i.owner}</NftOwner>
+                  <NftImg src={i.tokenurl} />
+                  <NftOwner>{i.description}</NftOwner>
                   <NftName>{i.name}</NftName>
                 </NftBox>
               ))}
