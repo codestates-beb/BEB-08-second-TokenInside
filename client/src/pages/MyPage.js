@@ -2,10 +2,6 @@ import styled from 'styled-components';
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
-import {login, logout} from '../store';
-import {Sidebar, Menu, MenuItem, SubMenu} from 'react-pro-sidebar';
-import {data} from '../NFTdummy';
 
 const Container = styled.div`
   margin-top: 100px;
@@ -38,42 +34,6 @@ const ColLists = styled.div`
   gap: 10px;
   height: 150px;
 `;
-const NftBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  border-radius: 10%;
-  box-shadow: 2px 3px 15px -5px;
-
-  justify-contents: center;
-  :hover {
-    transform: scale(1.01);
-    cursor: pointer;
-  }
-`;
-const NftImg = styled.img`
-  background-position: center;
-  background-size: cover;
-  width: 100%;
-  height: 200px;
-  border-radius: 10%;
-  border: 3px solid white;
-`;
-
-const NftName = styled.div`
-  font-size: 15px;
-  font-weight: 500;
-  height: 40px;
-  text-align: center;
-  overflow: hidden;
-  width: 100%;
-`;
-
-const NftOwner = styled.div`
-  font-size: 15px;
-  opacity: 0.8;
-  text-align: center;
-  background-color: white;
-`;
 const MyInfo = styled.div``;
 const Form = styled.form`
   display: flex;
@@ -86,11 +46,7 @@ const Input = styled.input`
   background-color: white;
   border: 1px;
 `;
-const Textarea = styled.textarea`
-  padding: 10px;
-  margin-bottom: 20px;
-  height: 200px;
-`;
+
 const Button = styled.button`
   padding: 10px;
   background-color: blue;

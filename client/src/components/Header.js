@@ -51,7 +51,7 @@ const Search = styled.div`
   display: flex;
   border-radius: 10px;
   margin-left: 25px;
-  width: 500px;
+  width: 400px;
   height: 30px;
   justify-content: space-between;
   align-items: center;
@@ -97,8 +97,18 @@ const Info = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  max-width: 10em;
 `;
-function Header({isLoggedIn, setIsLoggedIn, user, setUser, address, setAddress}) {
+function Header({
+  isLoggedIn,
+  setIsLoggedIn,
+  user,
+  setUser,
+  address,
+  setAddress,
+  searchInput,
+  setSearchInput,
+}) {
   // const isLoggedIn = useSelector(state => state.isLoggedIn);
   // const user = useSelector(state => state.user);
   // const address = useSelector(state => state.address);
@@ -133,6 +143,10 @@ function Header({isLoggedIn, setIsLoggedIn, user, setUser, address, setAddress})
     setUser(localStorage.getItem('user'));
     setAddress(localStorage.getItem('address'));
   };
+  const handleChange = e => {
+    e.preventDefault();
+    setSearchInput(e.target.va);
+  };
 
   return (
     <Head className="header">
@@ -153,7 +167,12 @@ function Header({isLoggedIn, setIsLoggedIn, user, setUser, address, setAddress})
 
           <Search>
             <SearchBox>
-              <SearchBar placeholder="Search post.." />
+              <SearchBar
+                placeholder="Search post.."
+                type="text"
+                onChange={handleChange}
+                value={searchInput}
+              />
             </SearchBox>
             <SearchBox margin-right="10px">
               <FontAwesomeIcon icon={faSearch} fontSize="15px" margin-right="10px" color="black" />
@@ -174,10 +193,8 @@ function Header({isLoggedIn, setIsLoggedIn, user, setUser, address, setAddress})
         </Column>
         {isLoggedIn ? (
           <>
-            <Info>
-              {user} {address}
-            </Info>
-
+            계정: {user}
+            <Info>주소: {address}</Info>
             <Btn>
               <Link to="/mypage">마이 페이지</Link>
             </Btn>
