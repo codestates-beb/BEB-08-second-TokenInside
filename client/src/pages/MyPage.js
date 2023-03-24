@@ -2,10 +2,6 @@ import styled from 'styled-components';
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
-import {login, logout} from '../store';
-import {Sidebar, Menu, MenuItem, SubMenu} from 'react-pro-sidebar';
-import {data} from '../NFTdummy';
 
 const Container = styled.div`
   margin-top: 100px;
@@ -38,42 +34,6 @@ const ColLists = styled.div`
   gap: 10px;
   height: 150px;
 `;
-const NftBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  border-radius: 10%;
-  box-shadow: 2px 3px 15px -5px;
-
-  justify-contents: center;
-  :hover {
-    transform: scale(1.01);
-    cursor: pointer;
-  }
-`;
-const NftImg = styled.img`
-  background-position: center;
-  background-size: cover;
-  width: 100%;
-  height: 200px;
-  border-radius: 10%;
-  border: 3px solid white;
-`;
-
-const NftName = styled.div`
-  font-size: 15px;
-  font-weight: 500;
-  height: 40px;
-  text-align: center;
-  overflow: hidden;
-  width: 100%;
-`;
-
-const NftOwner = styled.div`
-  font-size: 15px;
-  opacity: 0.8;
-  text-align: center;
-  background-color: white;
-`;
 const MyInfo = styled.div``;
 const Form = styled.form`
   display: flex;
@@ -86,11 +46,7 @@ const Input = styled.input`
   background-color: white;
   border: 1px;
 `;
-const Textarea = styled.textarea`
-  padding: 10px;
-  margin-bottom: 20px;
-  height: 200px;
-`;
+
 const Button = styled.button`
   padding: 10px;
   background-color: blue;
@@ -103,6 +59,7 @@ function MyPage({user, address}) {
   const [posts, setPosts] = useState([]);
   const [amount, setAmount] = useState('');
   const [content, setContent] = useState('');
+  const [nftInfo, setNftInfo] = useState('');
   /// 탭 관련
   useEffect(() => {
     axios
@@ -125,10 +82,17 @@ function MyPage({user, address}) {
   };
   const handleSubmit = async e => {
     e.preventDefault();
-    console.log('전송 시작');
-    setTimeout(() => {
-      alert(`${amount} 전송에 선공하였습니다!`);
-    }, 2000);
+    if (amount === '0') {
+      alert('금액을 입력해 주세요.');
+    } else if (myToken >= amount) {
+      console.log('amount: ', amount);
+      console.log('amount t: ', typeof amount);
+      setTimeout(() => {
+        alert(`${amount} 전송에 선공하였습니다. 🎉`);
+      }, 1000);
+    } else {
+      alert('금액이 부족합니다.');
+    }
   };
 
   return (
@@ -142,13 +106,13 @@ function MyPage({user, address}) {
           </Tabs>
           {tab === 0 && (
             <ColLists>
-              {nftInfo.map(i => (
+              {/* {nftInfo.map(i => (
                 <NftBox>
                   <NftImg src={i.tokenurl} />
                   <NftOwner>{i.user_id}</NftOwner>
                   <NftName>{i.name}</NftName>
                 </NftBox>
-              ))}
+              ))} */}
             </ColLists>
           )}
           {tab === 1 && (
@@ -156,10 +120,12 @@ function MyPage({user, address}) {
               <dic>내가 쓴 글</dic>
               {posts.map(item => (
                 <Link to={`/detail/${item.id}`}>
-                  {item.id}
-                  {item.created_at}
-                  {item.title}
-                  {item.content}
+                  <div>
+                    {item.id}
+                    {item.created_at}
+                    {item.title}
+                    {item.content}
+                  </div>
                 </Link>
               ))}
             </div>
