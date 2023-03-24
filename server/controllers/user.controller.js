@@ -173,3 +173,44 @@ exports.mypage_get = async (req, res, next) => {
     throw Error(e);
   }
 };
+
+//mypage에서 주소,보내는 양을 정하여 다른 유저에게 전송
+exports.transfer_post = async (req, res, next) => {
+  try {
+    //1.프론트에서 정보 받아오기
+    const {account,amount} = req.body;
+    //2. 세션 id 받아오기
+    const {id} = JSON.parse(req.session.user);
+    //3. 보내는 사람과 받는 사람을 데이터베이스에서 찾기
+    const user_sender = await User.findOne({
+      where: {
+        id,
+      },
+    });
+
+    const user_to = await User.findOne({
+      where: {
+        address:account,
+      },
+    });
+    if(!user_to){
+      return res.status(401).send({message:"유효허자 얺은 주소입니다."});
+    }
+    //4.sender와 to 계정의 데이터베이스 업데이트
+    const result_sender = await user_sender.decrement('token_amount', {by: Number(amount)});
+    if(!result_sender){
+      return res.status(401).send({message:"보유 잔액이 부족합니다."});
+    }
+    await user_to.increment('token_amount', {by: Number(amount)});
+    //5.업데이트된 sender를 데이터베이스에서 검색
+    const user_sender_update = await User.findOne({
+      where: {
+        id,
+      },
+    });
+
+    return res.status(200).send({message: '보내는데 성공하였습니다.', data: user_sender_update.token_amount});
+  } catch (e) {
+    throw Error(e);
+  }
+};
