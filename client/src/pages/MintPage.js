@@ -4,6 +4,7 @@ import axios from 'axios';
 import {useDropzone} from 'react-dropzone'; // npm i react-dropzone
 import {ThirdwebStorage} from '@thirdweb-dev/storage'; //npm install @thirdweb-dev/storage
 import {useNavigate} from 'react-router-dom';
+import Modal from '../components/Modal';
 
 const Wrapper = styled.div`
   display: flex;
@@ -124,13 +125,18 @@ const MintPage = () => {
 
     console.log('data', data);
     try {
-      const response = await axios.post(
-        'http://localhost:5500/nft/minting',
-        {name, description, tokenurl},
-        {
-          withCredentials: true,
-        },
-      );
+      const response = await axios
+        .post(
+          'http://localhost:5500/nft/minting',
+          {name, description, tokenurl},
+          {
+            withCredentials: true,
+          },
+        )
+        .then(res => {
+          // setModalVisible(true);
+          // setModalData();
+        });
       console.log('resoponse.data', response.data);
       navigate('/');
     } catch (error) {
@@ -138,10 +144,15 @@ const MintPage = () => {
     }
   };
 
+  // 모달 창
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalData, setModalData] = useState('');
+
   return (
     <Wrapper>
       <Dropzone onDrop={handleDrop} image={imageFile} />
       <Form onSubmit={onSubmit} />
+      {modalVisible && <Modal modalData={modalData} setModalVisible={setModalVisible} />}
     </Wrapper>
   );
 };
