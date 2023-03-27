@@ -23,10 +23,16 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import {useState} from 'react';
 
+import './App.css';
+import CssTest from './pages/CssTest';
+
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn'));
   const [user, setUser] = useState(localStorage.getItem('user'));
   const [address, setAddress] = useState(localStorage.getItem('address'));
+
+  // 글 검색
+  const [searchInput, setSearchInput] = useState('');
   return (
     <ThemeProvider theme={lightTheme}>
       <GlobalStyles />
@@ -37,10 +43,13 @@ function App() {
         setUser={setUser}
         address={address}
         setAddress={setAddress}
+        searchInput={searchInput}
+        setSearchInput={setSearchInput}
       />
+
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="/market" element={<MarketPage />} />
+        <Route path="/market" element={<MintPage />} />
         <Route
           path="/mypage"
           element={
@@ -79,6 +88,7 @@ function App() {
           }
         />
         <Route path="/mint" element={<MintPage />} />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

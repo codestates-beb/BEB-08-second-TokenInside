@@ -110,7 +110,8 @@ function JoinPage() {
       .post('http://localhost:5500/user/join', formData)
       .then(response => {
         console.log(response.message, response.data); // Do something with the response
-        navigate('/');
+        alert('회원가입에 성공하였습니다!');
+        navigate('/login');
       })
       .catch(error => {
         console.error(error);

@@ -162,7 +162,7 @@ const Button = styled.button`
   font-size: 25px;
 `;
 
-function MyPage() {
+function App() {
   const [activeTab, setActiveTab] = useState('nft');
   const [isLoading, setIsLoading] = useState(false);
   const [myToken, setMyToken] = useState(0);
@@ -307,4 +307,4 @@ function MyPage() {
   );
 }
 
-export default MyPage;
+export default App;
