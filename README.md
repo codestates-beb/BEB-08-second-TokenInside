@@ -1,12 +1,30 @@
 <picture>![header](https://capsule-render.vercel.app/api?type=waving&color=b9e0f0&height=200&animation=fadeIn&section=header&text=Token%20Inside&fontSize=90)</picture>
 <br>
-<a href="#"><img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white"></a>
-<a href="#"><img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"></a>
-<a href="#"><img src="https://img.shields.io/badge/Ethereum-3C3C3D?style=for-the-badge&logo=Ethereum&logoColor=white"></a>
 
+<hr/>
+
+<h3>Stacks</h3>
+
+<h4>Front-End :
+ <a href="#"><img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white"></a> 
+ <a href="#"><img src="https://img.shields.io/badge/styled components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"/></a> 
+  </h4>
+ 
+<h4>Back-End : 
+<a href="#"><img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white"></a>
+<a href="#"><img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=Express&logoColor=white"></a>
 <a href="#"><img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"></a>
- <a href="#"><img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white"></a> <a href="#"><img src="https://img.shields.io/badge/Solidity-363636?style=for-the-badge&logo=Solidity&logoColor=white"></a> <a href="#"><img src="https://img.shields.io/badge/Remix-000000?style=for-the-badge&logo=Remix&logoColor=white"></a> <a href="#"><img src="https://img.shields.io/badge/Web3.js-F16822?style=for-the-badge&logo=Web3.js&logoColor=white"></a>
-<a href="#"><img src="https://img.shields.io/badge/styled components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"/></a> 
+ <a href="#"><img src="https://img.shields.io/badge/Sequelize-52B0E7?style=for-the-badge&logo=Sequelize&logoColor=white"></a>
+ <a href="#"><img src="https://img.shields.io/badge/Web3.js-F16822?style=for-the-badge&logo=Web3.js&logoColor=white"></a>
+   </h4>
+   
+<h4>Smart Contracts : 
+<a href="#"><img src="https://img.shields.io/badge/Solidity-363636?style=for-the-badge&logo=Solidity&logoColor=white"></a>
+<a href="#"><img src="https://img.shields.io/badge/Ethereum-3C3C3D?style=for-the-badge&logo=Ethereum&logoColor=white"></a> 
+ <a href="#"><img src="https://img.shields.io/badge/Remix-000000?style=for-the-badge&logo=Remix&logoColor=white"></a> 
+</h4>
+   
+<hr/>
 
 <h3>Team Notion</h3>
 <a href="https://www.notion.so/2-75705eb4c03f4dcc91c497724cc5c3ca" target="_blank">
@@ -70,6 +88,12 @@ Web3 커뮤니티 활동을 하면 토큰을 주는 형식으로 프로젝트.
 <h3>Flow chart</h3>
 
 <img width="1392" alt="스크린샷 2023-03-24 오후 1 36 29" src="https://user-images.githubusercontent.com/89294486/227430385-d62165dc-26e8-4a9a-a78f-387419997441.png">
+
+<h3>DB Schema</h3>
+
+<img width="1392" alt="스크린샷 2023-03-24 오후 1 36 29" src="https://user-images.githubusercontent.com/89343745/227846942-693248d9-2978-42fb-b913-10f8b9b925d4.png">
+
+
 
 
 #  Functions
